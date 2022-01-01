@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const YAML = require('yaml');
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const SitemapPlugin = require('sitemap-webpack-plugin').default;
+const prettydata = require('pretty-data');
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -72,7 +74,9 @@ class SSGPlugin {
           post.title = yaml.title;
           post.description = yaml.description;
           post.kind = yaml.kind;
+          post.date = yaml.date;
           post.tags = yaml.tags;
+          post.lastModified = yaml.lastModified;
           break;
         case 'ogp.png':
           willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
@@ -118,6 +122,29 @@ class SSGPlugin {
         tag,
       }
     };
+
+    let paths = Object.values(siteIndex.posts.byUrl).map(p => {
+      return {
+        path: p.url,
+        lastmod: p.lastModified ?? p.date,
+      }
+    });
+
+    paths.unshift({
+      path: '/',
+      lastmod: paths.map(p => p.lastmod).reduce((a, b) => a > b ? a : b), // MAX
+    });
+
+    compiler.options.plugins.push(
+      new SitemapPlugin({
+        base: baseURL,
+        paths,
+        options: {
+          skipgzip: true,
+          formatter: (xml) => prettydata.pd.xml(xml),
+        },
+      })
+    );
 
     compiler.hooks.thisCompilation.tap('SSGPlugin',
       (compilation) => {
