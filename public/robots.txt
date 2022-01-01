@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abechan0212.nasequencer.com/sitemap.xml

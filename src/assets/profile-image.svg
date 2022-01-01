@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>Slice</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M41,716.875 L130.419355,656.25 C130.419355,656.25 100.612903,565.3125 100.612903,474.375 C100.612903,383.4375 190.032258,50 517.903226,50 C845.774194,50 965,322.8125 965,474.375 C965,625.9375 905.387097,747.1875 815.967742,807.8125 C905.387097,868.4375 935.193548,1020 935.193548,1020" id="Path-11" stroke="#000000" stroke-width="46.1904762"></path>
+        <ellipse id="Oval-23" fill="#000000" cx="398.753846" cy="321.865234" rx="29.8523077" ry="30.3125"></ellipse>
+        <ellipse id="Oval-23" fill="#000000" cx="667.898462" cy="323.759766" rx="29.8523077" ry="30.3125"></ellipse>
+        <path d="M340.705895,474.375 C339.924321,479.35131 339.523077,484.4083 339.523077,489.53125 C339.523077,564.866342 426.29167,625.9375 533.326154,625.9375 C640.360638,625.9375 727.129231,564.866342 727.129231,489.53125 C727.129231,484.4083 726.727987,479.35131 725.946412,474.375 L340.705895,474.375 Z" id="Oval-25" stroke="#000000" stroke-width="46.1904762"></path>
+    </g>
+</svg>

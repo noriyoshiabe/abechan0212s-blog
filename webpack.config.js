@@ -4,25 +4,46 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const CopyPlugin = require("copy-webpack-plugin");
+
 const isProduction = process.env.NODE_ENV == "production";
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 
+const SSGPlugin = require("./webpack.ssg.js");
+
 const config = {
-  entry: "./src/index.js",
+  entry: {
+    app: "./src/index.js",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
+    filename: "[name].js?[hash]",
+    hashDigestLength: 8,
+    assetModuleFilename: '[name][ext]?[hash]',
+    publicPath: "/",
   },
   devServer: {
     open: true,
     host: "localhost",
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: "src/index.html",
+    new SSGPlugin(),
+
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "public",
+          globOptions: {
+            ignore: ["**/index.html"],
+          }
+        },
+      ],
     }),
 
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "[name].css?[hash]",
+    }),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -43,11 +64,14 @@ const config = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
+        type: 'asset/resource',
       },
       {
         test: /\.html$/i,
         loader: "html-loader",
+        exclude: [
+          path.join(__dirname, 'public/'),
+        ]
       },
 
       // Add your rules for custom modules here

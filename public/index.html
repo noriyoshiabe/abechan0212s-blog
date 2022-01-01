@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <meta name="title" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta name="description" content="<%= htmlWebpackPlugin.options.description %>">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <meta property="og:url" content="<%= htmlWebpackPlugin.options.url %>">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta property="og:description" content="<%= htmlWebpackPlugin.options.description %>">
+    <meta property="og:site_name" content="<%= Define.SITE_NAME %>">
+    <meta property="og:image" content="<%= htmlWebpackPlugin.options.imgUrl() %>">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.title %>">
+    <meta name="twitter:image" content="<%= htmlWebpackPlugin.options.imgUrl() %>">
+    <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.description %>">
+
+    <link rel="canonical" href="<%= htmlWebpackPlugin.options.url %>" />
+  </head>
+  <body>
+  </body>
+</html>
