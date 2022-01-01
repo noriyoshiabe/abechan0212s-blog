@@ -14,6 +14,7 @@ const postsDir = "./posts";
 class SSGPlugin {
   apply(compiler) {
     let compilationHash;
+    let willEmitAssets = [];
 
     let byUrl = {};
     let fixed = [];
@@ -41,13 +42,10 @@ class SSGPlugin {
     indivisualPostDirs.forEach(dir => {
       let htmlPluginOptions = Object.assign({}, defaultHtmlPluginOptions);
       let permalink = dir.substring(9);
-      let outDir = path.resolve(compiler.options.output.path, permalink);
       let post = {url: `/${permalink}`};
 
       htmlPluginOptions.url = `${baseURL}/${permalink}`;
-      htmlPluginOptions.filename = `${outDir}/index.html`;
-
-      fs.mkdirSync(outDir, {recursive: true});
+      htmlPluginOptions.filename = `${permalink}/index.html`;
 
       const contents = fs.readdirSync(path.resolve(__dirname, postsDir, dir)).filter((dir) => !dir.startsWith('.'));
       contents.forEach(fileName => {
@@ -55,10 +53,10 @@ class SSGPlugin {
 
         switch (fileName) {
         case 'body.md':
-          fs.copyFileSync(filePath, path.resolve(outDir, fileName));
+          willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
           break;
         case 'meta.yml':
-          let yamlText = fs.readFileSync(filePath, 'utf8')
+          let yamlText = fs.readFileSync(filePath, 'utf8');
           let yaml = YAML.parse(yamlText);
           
           if (!yaml.title) throw new Error(`\`title\` missing in ${filePath}`);
@@ -77,11 +75,11 @@ class SSGPlugin {
           post.tags = yaml.tags;
           break;
         case 'ogp.png':
-          fs.copyFileSync(filePath, path.resolve(outDir, fileName));
+          willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
           htmlPluginOptions.imgUrl = () => `${baseURL}/${permalink}/${fileName}?${compilationHash}`;
           break;
         case 'thumbnail.png':
-          fs.copyFileSync(filePath, path.resolve(outDir, fileName));
+          willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
           post.thumbnailUrl = `/${permalink}/${fileName}`;
           break;
         default:
@@ -135,7 +133,12 @@ class SSGPlugin {
             }
           });
 
-          fs.writeFileSync(path.resolve(compiler.options.output.path, 'index.json'), JSON.stringify(siteIndex));
+          willEmitAssets.forEach(asset => {
+            let content = fs.readFileSync(asset.fromPath, 'utf8');
+            compilation.emitAsset(asset.toPath, new webpack.sources.RawSource(content));
+          });
+
+          compilation.emitAsset('index.json', new webpack.sources.RawSource(JSON.stringify(siteIndex)));
           return callback();
         });
     });
