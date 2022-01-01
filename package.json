@@ -32,7 +32,9 @@
     "clean": "rm -rf dist/"
   },
   "dependencies": {
+    "core-js": "^3.20.2",
     "nvc": "noriyoshiabe/nvc#0.2.0",
-    "page": "^1.11.6"
+    "page": "^1.11.6",
+    "regenerator-runtime": "^0.13.9"
   }
 }

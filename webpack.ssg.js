@@ -44,7 +44,10 @@ class SSGPlugin {
     indivisualPostDirs.forEach(dir => {
       let htmlPluginOptions = Object.assign({}, defaultHtmlPluginOptions);
       let permalink = dir.substring(9);
-      let post = {url: `/${permalink}`};
+      let post = {
+        url: `/${permalink}`,
+        bodyUrl: `/${permalink}/body.md`,
+      };
 
       htmlPluginOptions.url = `${baseURL}/${permalink}`;
       htmlPluginOptions.filename = `${permalink}/index.html`;
@@ -72,6 +75,7 @@ class SSGPlugin {
           htmlPluginOptions.description = yaml.description;
 
           post.title = yaml.title;
+          post.htmlTitle = `${yaml.title} - ${siteName}`;
           post.description = yaml.description;
           post.kind = yaml.kind;
           post.date = yaml.date;
@@ -115,6 +119,13 @@ class SSGPlugin {
     });
 
     let siteIndex = {
+      top: {
+        title: defaultHtmlPluginOptions.title,
+        htmlTitle: defaultHtmlPluginOptions.title,
+        description: defaultHtmlPluginOptions.description,
+        url: defaultHtmlPluginOptions.url,
+        imgUrl: defaultHtmlPluginOptions.imgUrl,
+      },
       posts: {
         byUrl,
         article,
@@ -157,6 +168,7 @@ class SSGPlugin {
           Object.values(siteIndex.posts.byUrl).forEach(post => {
             if (post.thumbnailUrl) {
               post.thumbnailUrl += `?${compilationHash}`
+              post.bodyUrl += `?${compilationHash}`
             }
           });
 

@@ -1,3 +1,6 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 import page from 'page';
 
 import './index.scss';
@@ -6,9 +9,16 @@ import NavigationViewController from './NavigationViewController';
 import TopViewController from './TopViewController';
 import PostViewController from './PostViewController';
 
-const nav = new NavigationViewController();
-document.body.appendChild(nav.view.element);
+let siteIndexUrl = document.querySelector('meta[name=site-index]').content;
 
-page('/', () => nav.show(TopViewController));
-page('/:permalink', () => nav.show(PostViewController));
-page();
+(async () => {
+  let response = await fetch(siteIndexUrl);
+  const siteIndex = await response.json();
+
+  const nav = new NavigationViewController(siteIndex);
+  document.body.appendChild(nav.view.element);
+
+  page('/', (ctx) => nav.show(TopViewController, ctx));
+  page('/:permalink', (ctx) => nav.show(PostViewController, ctx));
+  page();
+})();

@@ -1,31 +1,73 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 import { NAViewController, NAView } from 'nvc';
 import html from './NavigationView.html';
 
 class NavigationViewController extends NAViewController {
   vcs = {}
 
-  constructor() {
+  constructor(siteIndex) {
     super(new NAView(html));
+    this.siteIndex = siteIndex;
   }
 
-  show(ViewController) {
-    setTimeout(() => this._show(ViewController));
+  show(ViewController, ctx) {
+    setTimeout(async () => await this._show(ViewController, ctx));
   }
 
-  _show(ViewController) {
-    this.vcs[location.pathname] = this.vcs[location.pathname] || new ViewController(location.pathname);
+  async _show(ViewController, ctx) {
+    this.ctx = ctx;
 
-    let prevVC = this.currentVC;
-    let currentVC = this.vcs[location.pathname];
+    let nextVC = this.vcs[ctx.pathname];
+    if (!nextVC) {
+      nextVC = new ViewController();
+      nextVC.navVC = this;
+      nextVC.siteIndex = this.siteIndex;
+      this.vcs[ctx.pathname] = nextVC;
+    }
 
-    if (prevVC === currentVC) {
+    if (this.currentVC === nextVC) {
       return;
     }
 
-    this.view.content.appendChild(currentVC.view.element);
-    prevVC && this.view.content.removeChild(prevVC.view.element);
+    await Promise.all([
+      nextVC.viewWillAppear?.(),
+      this.currentVC?.viewWillDisappear?.(),
+    ].filter(Boolean));
 
-    this.currentVC = currentVC;
+    this.view.content.appendChild(nextVC.view.element);
+    this.currentVC && this.view.content.removeChild(this.currentVC.view.element);
+
+    await Promise.all([
+      nextVC.viewDidAppear?.(),
+      this.currentVC?.viewDidDisappear?.(),
+    ].filter(Boolean));
+
+    this.currentVC = nextVC;
+  }
+
+  set metaInfo(meta) {
+    console.log(meta);
+    document.title = meta.htmlTitle;
+
+    document.querySelector('meta[name=title]').content = meta.title;
+    document.querySelector('meta[name=description]').content = meta.description;
+
+    document.querySelector('meta[property="og:url"]').content = meta.url;
+    document.querySelector('meta[property="og:title"]').content = meta.title;
+    document.querySelector('meta[property="og:description"]').content = meta.description;
+    document.querySelector('meta[property="og:image"]').content = meta.imgUrl;
+
+    document.querySelector('meta[name="twitter:title"]').content = meta.title;
+    document.querySelector('meta[name="twitter:description"]').content = meta.description;
+    document.querySelector('meta[name="twitter:image"]').content = meta.imgUrl;
+
+    document.querySelector('link[rel=canonical]').href = meta.url;
+  }
+
+  get pathname() {
+    return this.ctx.pathname;
   }
 }
 
