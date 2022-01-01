@@ -27,7 +27,7 @@ class SSGPlugin {
       description: "abechan0212のブログです。",
       url: baseURL,
       imgUrl: () => `${baseURL}/ogp.png?${compilationHash}`,
-      indexJsonUrl: () => `${baseURL}/index.json?${compilationHash}`,
+      indexJsonUrl: () => `/index.json?${compilationHash}`,
     };
 
     compiler.options.plugins.push(
