@@ -11,12 +11,15 @@ class TopViewController extends NAViewController {
 
   set siteIndex(siteIndex) {
     this.top = new NAObject(siteIndex.top);
-    this.whoAmI = new NAObject(siteIndex.posts.byUrl['/who-am-i']);
+    this.whoAmI = new NAObject(siteIndex.posts.byUrl['/who_am_i']);
+    this.aboutThisSite = new NAObject(siteIndex.posts.byUrl['/about_this_site']);
   }
 
   async viewWillAppear() {
     this.view.bind('fixed_link1', {to: this.whoAmI, keyPath: 'url', adapter: HrefBindAdapter, oneway: true});
     this.view.bind('fixed_link1', {to: this.whoAmI, keyPath: 'title', oneway: true});
+    this.view.bind('fixed_link2', {to: this.aboutThisSite, keyPath: 'url', adapter: HrefBindAdapter, oneway: true});
+    this.view.bind('fixed_link2', {to: this.aboutThisSite, keyPath: 'title', oneway: true});
   }
 
   async viewDidAppear() {

@@ -166,9 +166,9 @@ class SSGPlugin {
           compilationHash = compilation.hash;
 
           Object.values(siteIndex.posts.byUrl).forEach(post => {
+            post.bodyUrl += `?${compilationHash}`
             if (post.thumbnailUrl) {
               post.thumbnailUrl += `?${compilationHash}`
-              post.bodyUrl += `?${compilationHash}`
             }
           });
 
@@ -177,7 +177,7 @@ class SSGPlugin {
             compilation.emitAsset(asset.toPath, new webpack.sources.RawSource(content));
           });
 
-          compilation.emitAsset('index.json', new webpack.sources.RawSource(JSON.stringify(siteIndex)));
+          compilation.emitAsset('index.json', new webpack.sources.RawSource(JSON.stringify(siteIndex, null, 2)));
           return callback();
         });
     });
