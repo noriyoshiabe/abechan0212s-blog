@@ -14,7 +14,7 @@ class PostViewController extends NAViewController {
   }
 
   async viewWillAppear() {
-    this.post = new NAObject(this.siteIndex.posts.byId[this.navVC.pathname.substring(1)]);
+    this.post = new NAObject(this.siteIndex.posts.byId[this.navVC.pathname.substring(1).split('/')[0]]);
 
     if (!this.rendered) {
       this.view.title.innerText = this.post.title;

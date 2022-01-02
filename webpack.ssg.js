@@ -42,7 +42,7 @@ class SSGPlugin {
       template: "public/index.html",
       title: siteName,
       description: "abechan0212のブログです。",
-      url: baseURL,
+      url: `${baseURL}/`,
       imgUrl: () => `${baseURL}/ogp.png?${compilationHash}`,
       indexJsonUrl: () => `/index.json?${compilationHash}`,
     };
@@ -61,12 +61,12 @@ class SSGPlugin {
       let permalink = dir.substring(9);
       let post = {
         id: permalink,
-        url: `/${permalink}`,
+        url: `/${permalink}/`,
         bodyUrl: () => `/${permalink}/body.md?${compilationHash}`,
         imgUrl: defaultHtmlPluginOptions.imgUrl,
       };
 
-      htmlPluginOptions.url = `${baseURL}/${permalink}`;
+      htmlPluginOptions.url = `${baseURL}/${permalink}/`;
       htmlPluginOptions.filename = `${permalink}/index.html`;
 
       const contents = fs.readdirSync(path.resolve(__dirname, postsDir, dir)).filter((dir) => !dir.startsWith('.'));
