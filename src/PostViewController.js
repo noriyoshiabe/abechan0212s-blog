@@ -3,7 +3,7 @@ import "regenerator-runtime/runtime";
 
 import MarkdownIt from "markdown-it";
 
-import { NAViewController, NAView, NAObject } from 'nvc';
+import { NAViewController, NAView } from 'nvc';
 import html from './PostView.html';
 
 const md = new MarkdownIt();
@@ -14,7 +14,7 @@ class PostViewController extends NAViewController {
   }
 
   async viewWillAppear() {
-    this.post = new NAObject(this.siteIndex.posts.byId[this.navVC.pathname.substring(1).split('/')[0]]);
+    this.post = this.siteIndex.posts.byId[this.navVC.pathname.substring(1).split('/')[0]];
 
     if (!this.rendered) {
       this.view.title.innerText = this.post.title;
