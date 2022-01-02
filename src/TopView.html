@@ -1,4 +1,34 @@
-<h2>Top</h2>
-<a na-view-property="fixed_link1"></a>
-<br />
-<a na-view-property="fixed_link2"></a>
+<div class="TopView">
+  <h1 na-view-property="site_name"></h1>
+  <a na-view-property="fixed_link1"></a>
+  <br />
+  <a na-view-property="fixed_link2"></a>
+  <br />
+  <a href="https://nasequencer.com/" target="_blank" rel=“noopener”>NASequencer</a>
+
+  <ul na-view="selectionView">
+    <template na-view-property="selection_item_tpl">
+      <li>
+        <input na-view-property="check" type="checkbox" />
+        <label na-view-property="label"></label>
+      </li>
+    </template>
+  </ul>
+
+  <ul na-view-property="list">
+    <template na-view-property="list_item_tpl">
+      <li>
+        <a na-view-property="link">
+          <h2 na-view-property="title"></h2>
+          <p na-view-property="description"></p>
+          <ul na-view-property="tag_list">
+            <template na-view-property="tag_tpl">
+              <li></li>
+            </template>
+          </ul>
+          <img na-view-property="thumbnail" class="is-hidden" />
+        </a>
+      </li>
+    </template>
+  </ul>
+</div>

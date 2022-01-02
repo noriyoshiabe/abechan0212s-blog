@@ -48,7 +48,6 @@ class NavigationViewController extends NAViewController {
   }
 
   set metaInfo(meta) {
-    console.log(meta);
     document.title = meta.htmlTitle;
 
     document.querySelector('meta[name=title]').content = meta.title;

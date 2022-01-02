@@ -10,7 +10,7 @@ class PostViewController extends NAViewController {
   }
 
   async viewWillAppear() {
-    this.post = new NAObject(this.siteIndex.posts.byUrl[this.navVC.pathname]);
+    this.post = new NAObject(this.siteIndex.posts.byId[this.navVC.pathname.substring(1)]);
 
     if (!this.mdText) {
       let response = await fetch(this.post.bodyUrl);

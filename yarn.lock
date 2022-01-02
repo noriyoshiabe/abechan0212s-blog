@@ -3974,7 +3974,7 @@ nth-check@^2.0.1:
 
 nvc@noriyoshiabe/nvc#0.2.0:
   version "0.2.0"
-  resolved "git+ssh://git@github.com/noriyoshiabe/nvc.git#3e3c8e6567598ce55e3a32523bd4dae7d5b0a2e1"
+  resolved "https://codeload.github.com/noriyoshiabe/nvc/tar.gz/df77b25b20180690eb3d569f2cede761f1fcdd3d"
 
 object-copy@^0.1.0:
   version "0.1.0"
@@ -4490,12 +4490,7 @@ regenerate@^1.4.2:
   resolved "https://registry.npmjs.org/regenerate/-/regenerate-1.4.2.tgz"
   integrity sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==
 
-regenerator-runtime@^0.13.4:
-  version "0.13.9"
-  resolved "https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz"
-  integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==
-
-regenerator-runtime@^0.13.9:
+regenerator-runtime@^0.13.4, regenerator-runtime@^0.13.9:
   version "0.13.9"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.9.tgz#8925742a98ffd90814988d7566ad30ca3b263b52"
   integrity sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==

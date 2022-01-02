@@ -19,6 +19,6 @@ let siteIndexUrl = document.querySelector('meta[name=site-index]').content;
   document.body.appendChild(nav.view.element);
 
   page('/', (ctx) => nav.show(TopViewController, ctx));
-  page('/:permalink', (ctx) => nav.show(PostViewController, ctx));
+  page('/:id', (ctx) => nav.show(PostViewController, ctx));
   page();
 })();

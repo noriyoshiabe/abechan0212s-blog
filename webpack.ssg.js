@@ -155,7 +155,7 @@ class SSGPlugin {
           compilationHash = compilation.hash;
 
           willEmitAssets.forEach(asset => {
-            let content = fs.readFileSync(asset.fromPath, 'utf8');
+            let content = fs.readFileSync(asset.fromPath);
             compilation.emitAsset(asset.toPath, new webpack.sources.RawSource(content));
           });
 
