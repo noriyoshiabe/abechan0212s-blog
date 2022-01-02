@@ -100,6 +100,7 @@ class SSGPlugin {
         case 'ogp.png':
           willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
           post.imgUrl = () => `${baseURL}/${permalink}/${fileName}?${compilationHash}`;
+          htmlPluginOptions.imgUrl = post.imgUrl
           break;
         case 'thumbnail.png':
           willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
