@@ -94,6 +94,7 @@ class ListItemViewController extends NAViewController {
     this.view.link.href = _post.url;
     this.view.title.innerText = _post.title;
     this.view.description.innerText = _post.description;
+    this.view.date.innerText = _post.date;
 
     this._post.tags.forEach(tag => {
       let tagView = new NAView(this.view.tag_tpl);
