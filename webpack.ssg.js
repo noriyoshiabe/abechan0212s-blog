@@ -8,8 +8,14 @@ const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const prettydata = require('pretty-data');
 
 const isProduction = process.env.NODE_ENV == "production";
+const stage = isProduction ? process.env.STAGE || "production" : "local";
 
-const baseURL = isProduction ? "https://abechan0212.nasequencer.com" : "http://localhost:8080";
+const baseURL = {
+  local: "http://localhost:8080",
+  staging: "https://staging.nasequencer.com",
+  production: "https://abechan0212.nasequencer.com",
+}[stage];
+
 const siteName = "abechan0212's blog";
 const postsDir = "./posts";
 
