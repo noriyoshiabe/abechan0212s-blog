@@ -1,2 +1,146 @@
 .TopView {
+  header {
+    padding: 0 5px;
+
+    .link {
+      margin-top: 108px;
+      margin-left: calc(50% + 5px);
+      font-size: 16px;
+
+      > p {
+        margin: 8px 0;
+      }
+    }
+
+    .sns {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      > a {
+        margin: 0 5px;
+      }
+    }
+
+    h1 {
+      color: black;
+      margin: 0 0 10px;
+      padding-top: 23px;
+      width: 100%;
+      text-align: center;
+      font-size: 34px;
+    }
+  }
+
+  .selection {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      margin: 10px 5px;
+
+      input[type=checkbox] {
+        display: none;
+
+        & + label {
+          color: $c-text;
+          border-bottom: dotted 1px $c-text;
+          cursor: pointer;
+        }
+
+        &:checked + label {
+          color: $c-highlight;
+          border-bottom: dotted 1px $c-highlight;
+        }
+      }
+    }
+  }
+
+  .list {
+    margin-top: 30px;
+    list-style: none;
+    padding: 0 15px;
+
+    > li {
+      position: relative;
+      overflow: hidden;
+      height: 140px;
+      margin-bottom: 30px;
+      transition: all 0.2s;
+
+      &.is-hidden {
+        display: block;
+        height: 0;
+        margin-bottom: 0;
+      }
+
+      h2 {
+        font-size: 18px;
+        margin: 10px 0 0;
+      }
+
+      .detail {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+
+        .description {
+          font-size: 16px;
+          margin: 0 0 5px;
+        }
+
+        .tag_list {
+          margin-top: 10px;
+          list-style: none;
+          padding: 0;
+
+          li {
+            display: inline-block;
+            margin-right: 5px;
+            font-size: 14px;
+            color: $c-text;
+            border-bottom: dotted 1px $c-text;
+          }
+        }
+
+        .date {
+          margin: 5px 20px -1px 0;
+          font-size: 14px;
+        }
+
+        img {
+          margin-right: 5px;
+          width: 80px;
+          height: 80px;
+        }
+      }
+    }
+  }
 }
+
+@media screen and (max-width: 374px) {
+  .TopView {
+    .list {
+      > li {
+        h2 {
+          font-size: 17px;
+        }
+
+        .detail {
+          .description {
+            font-size: 14px;
+          }
+
+          img {
+            width: 64px;
+            height: 64px;
+          }
+        }
+      }
+    }
+  }
+}
+

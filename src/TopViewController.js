@@ -12,6 +12,8 @@ class TopViewController extends NAViewController {
   set siteIndex(siteIndex) {
     this.top = siteIndex.top;
 
+    this.view.site_name.innerText = siteIndex.top.title;
+
     let whoAmI = siteIndex.posts.byId.who_am_i;
     this.view.fixed_link1.href = whoAmI.url;
     this.view.fixed_link1.innerText = whoAmI.title;

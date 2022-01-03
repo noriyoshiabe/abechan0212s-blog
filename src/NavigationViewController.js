@@ -10,6 +10,7 @@ class NavigationViewController extends NAViewController {
   constructor(siteIndex) {
     super(new NAView(html));
     this.siteIndex = siteIndex;
+    this.view.profile_image.addEventListener('click', this._onClickProfile.bind(this));
   }
 
   show(ViewController, ctx) {
@@ -34,6 +35,7 @@ class NavigationViewController extends NAViewController {
     await Promise.all([
       nextVC.viewWillAppear?.(),
       this.currentVC?.viewWillDisappear?.(),
+      this.willTransit(),
     ].filter(Boolean));
 
     this.view.content.appendChild(nextVC.view.element);
@@ -42,6 +44,7 @@ class NavigationViewController extends NAViewController {
     await Promise.all([
       nextVC.viewDidAppear?.(),
       this.currentVC?.viewDidDisappear?.(),
+      this.didTransit(),
     ].filter(Boolean));
 
     this.currentVC = nextVC;
@@ -67,6 +70,25 @@ class NavigationViewController extends NAViewController {
 
   get pathname() {
     return this.ctx.pathname;
+  }
+
+  async willTransit() {
+    if (this.ctx.pathname === '/') {
+      this.view.profile_image.classList.remove("is-away")
+      this.view.profile_image.classList.add("is-ready")
+    } else {
+      this.view.profile_image.classList.add("is-away")
+    }
+  }
+
+  async didTransit() {
+  }
+
+  _onClickProfile(e) {
+    if (this.ctx.pathname === '/') {
+      this.view.message.classList.remove('is-active');
+      setTimeout(() => this.view.message.classList.add('is-active'), 50);
+    }
   }
 }
 

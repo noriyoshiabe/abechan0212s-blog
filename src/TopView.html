@@ -1,24 +1,25 @@
 <div class="TopView">
-  <h1 na-view-property="site_name"></h1>
-  <a na-view-property="fixed_link1"></a>
-  <br />
-  <a na-view-property="fixed_link2"></a>
-  <br />
-  <a href="https://nasequencer.com/" target="_blank" rel=“noopener”>NASequencer<img src="assets/arrow.svg" width="8" style="margin-left: 4px;"/></a>
+  <header>
+    <div class="link">
+      <p><a na-view-property="fixed_link1"></a></p>
+      <p><a na-view-property="fixed_link2"></a></p>
+      <p><a href="https://nasequencer.com/" target="_blank" rel=“noopener”>NASequencer<img src="assets/arrow.svg" width="8" style="margin-left: 4px;"/></a></p>
+    </div>
+    <h1 na-view-property="site_name"></h1>
+    <div class="sns">
+      <a href="https://www.youtube.com/user/abechan0212" target="_blank" rel=“noopener”>
+        <img src="assets/youtube.svg" alt="youtube.svg" width="28" />
+      </a>
+      <a href="https://twitter.com/na0000000000" target="_blank" rel=“noopener”>
+        <img src="assets/twitter.svg" alt="twitter.svg" width="28" />
+      </a>
+      <a href="https://github.com/noriyoshiabe" target="_blank" rel=“noopener”>
+        <img src="assets/github.svg" alt="github.svg" width="28" />
+      </a>
+    </div>
+  </header>
 
-  <div style="display: flex; align-items: center;">
-    <a href="https://www.youtube.com/user/abechan0212" target="_blank" rel=“noopener”>
-      <img src="assets/youtube.svg" alt="youtube.svg" width="28" />
-    </a>
-    <a href="https://twitter.com/na0000000000" target="_blank" rel=“noopener”>
-      <img src="assets/twitter.svg" alt="twitter.svg" width="28" />
-    </a>
-    <a href="https://github.com/noriyoshiabe" target="_blank" rel=“noopener”>
-      <img src="assets/github.svg" alt="github.svg" width="28" />
-    </a>
-  </div>
-
-  <ul na-view="selectionView">
+  <ul class="selection" na-view="selectionView">
     <template na-view-property="selection_item_tpl">
       <li>
         <input na-view-property="check" type="checkbox" />
@@ -27,20 +28,24 @@
     </template>
   </ul>
 
-  <ul na-view-property="list">
+  <ul class="list" na-view-property="list">
     <template na-view-property="list_item_tpl">
       <li>
         <a na-view-property="link">
           <h2 na-view-property="title"></h2>
-          <p na-view-property="date"></p>
-          <p na-view-property="description"></p>
-          <ul na-view-property="tag_list">
-            <template na-view-property="tag_tpl">
-              <li></li>
-            </template>
-          </ul>
-          <img na-view-property="thumbnail" class="is-hidden" />
         </a>
+        <div class="detail">
+          <div>
+            <p class="description" na-view-property="description"></p>
+            <ul class="tag_list" na-view-property="tag_list">
+              <template na-view-property="tag_tpl">
+                <li></li>
+              </template>
+            </ul>
+            <p class="date" na-view-property="date"></p>
+          </div>
+          <img na-view-property="thumbnail" class="is-hidden" />
+        </div>
       </li>
     </template>
   </ul>

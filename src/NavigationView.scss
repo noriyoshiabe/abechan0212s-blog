@@ -1,0 +1,79 @@
+.NavigationView {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .profile-image {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: calc(50vw - 20px);
+    height: 220px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    img {
+      width: 100%;
+      max-width: 180px;
+      transform: rotate(0deg);
+    }
+
+    &.is-away {
+      width: 32px;
+      height: 32px;
+
+      img {
+        transform: rotate(-360deg);
+      }
+    }
+
+    &.is-ready {
+      transition: all 0.2s;
+
+      img {
+        transition: all 0.2s;
+      }
+    }
+  }
+
+  @keyframes show-message {
+      0.00% { opacity: 0; transform: rotate(-20deg) translate(0,0); }
+     50.00% { opacity: 1; transform: rotate(-20deg) translate(20px,-20px);  }
+    100.00% { opacity: 1; transform: rotate(-20deg) translate(20px,-20px);  }
+  }
+
+  .message {
+    position: absolute;
+    top: 80px;
+    left: calc(50vw);
+    font-weight: 800;
+    opacity: 0;
+
+    &.is-active {
+      animation-duration: 0.5s;
+      animation-name: show-message;
+      animation-fill-mode: none;
+    }
+  }
+
+  .content {
+    margin: 32px auto auto;
+    max-width: 1024px;
+    padding: 0;
+  }
+
+  footer {
+    text-align: center;
+    margin: 20px;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  .NavigationView {
+    .message {
+      top: 90px;
+    }
+  }
+}
+

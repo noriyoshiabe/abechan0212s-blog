@@ -1,3 +1,26 @@
+$c-text: #333;
+$c-link: #4a4a4a;
+$c-highlight: #4183c4;
+
+$fw-normal: 300;
+$fw-bold: 500;
+
+body {
+  color: $c-text;
+  font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;
+  font-weight: $fw-normal;
+}
+
+a {
+  color: $c-link;
+  text-decoration: none;
+
+  &:hover {
+    color: $c-highlight;
+    text-decoration: underline;
+  }
+}
+
 .is-hidden {
   display: none;
 }
