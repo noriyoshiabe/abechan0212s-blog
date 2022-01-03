@@ -33,10 +33,7 @@ class TopViewController extends NAViewController {
     });
   }
 
-  async viewWillAppear() {
-  }
-
-  async viewDidAppear() {
+  viewDidAppear() {
     this.navVC.metaInfo = this.top;
   }
 }

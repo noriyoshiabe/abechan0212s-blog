@@ -4,14 +4,6 @@ import "regenerator-runtime/runtime";
 import { NAViewController, NAView } from 'nvc';
 import html from './NavigationView.html';
 
-const defer = () => {
-	return new Promise(resolve => {
-		setTimeout(() => {
-			resolve();
-		});
-	})	
-}
-
 class NavigationViewController extends NAViewController {
   vcs = {}
 
@@ -22,10 +14,6 @@ class NavigationViewController extends NAViewController {
   }
 
   show(ViewController, ctx) {
-    setTimeout(async () => await this._show(ViewController, ctx));
-  }
-
-  async _show(ViewController, ctx) {
     this.ctx = ctx;
 
     let nextVC = this.vcs[ctx.pathname];
@@ -40,16 +28,19 @@ class NavigationViewController extends NAViewController {
       return;
     }
 
-    await this.willTransit(nextVC, this.currentVC),
-    await nextVC.viewWillAppear?.(),
-
     this.view.content.appendChild(nextVC.view.element);
     this.currentVC && this.view.content.removeChild(this.currentVC.view.element);
 
-    await nextVC.viewDidAppear?.(),
-    await this.didTransit(nextVC, this.currentVC),
+    nextVC.viewDidAppear?.();
+    this.didTransit(nextVC, this.currentVC);
 
     this.currentVC = nextVC;
+
+    if (!ctx.state.pageShown) {
+      setTimeout(() => window.scroll(0 , 0));
+    }
+    ctx.state.pageShown = true;
+    setTimeout(() => ctx.save());
   }
 
   set metaInfo(meta) {
@@ -74,7 +65,7 @@ class NavigationViewController extends NAViewController {
     return this.ctx.pathname;
   }
 
-  async willTransit(nextVC, currentVC) {
+  didTransit(currentVC, prevVC) {
     if (this.ctx.pathname === '/') {
       this.view.profile_image.classList.remove("is-away")
       this.view.profile_image.classList.add("is-ready")
@@ -82,12 +73,11 @@ class NavigationViewController extends NAViewController {
       this.view.profile_image.classList.add("is-away")
     }
 
-    currentVC?.view.element.classList.remove("is-shown");
-  }
+    prevVC?.view.element.classList.remove("is-shown");
 
-  async didTransit(currentVC, prevVC) {
-    await defer();
-    currentVC.view.element.classList.add("is-shown");
+    setTimeout(() => {
+      currentVC.view.element.classList.add("is-shown");
+    });
   }
 
   _onClickProfile(e) {
