@@ -1,5 +1,4 @@
 $c-text: #333;
-$c-link: #4a4a4a;
 $c-highlight: #4183c4;
 
 $fw-normal: 300;
@@ -12,7 +11,7 @@ body {
 }
 
 a {
-  color: $c-link;
+  color: $c-text;
   text-decoration: none;
 
   &:hover {
