@@ -60,14 +60,16 @@
   }
 
   .list {
-    margin-top: 30px;
+    margin: 30px auto 80px;
     list-style: none;
-    padding: 0 15px;
+    padding: 0;
+    width: 100%;
+    max-width: 680px;
 
     > li {
       position: relative;
       overflow: hidden;
-      height: 140px;
+      height: 145px;
       margin-bottom: 30px;
       transition: all 0.2s;
 
@@ -107,7 +109,7 @@
         }
 
         .date {
-          margin: 5px 20px -1px 0;
+          margin-top: 5px;
           font-size: 14px;
         }
 
