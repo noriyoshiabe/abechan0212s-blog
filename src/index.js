@@ -3,6 +3,7 @@ import "regenerator-runtime/runtime";
 
 import page from 'page';
 
+import 'normalize.css';
 import './index.scss';
 
 import NavigationViewController from './NavigationViewController';
