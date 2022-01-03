@@ -61,6 +61,15 @@
     margin: 32px auto auto;
     max-width: 1024px;
     padding: 0;
+
+    > div {
+      opacity: 0;
+      transition: opacity 0.5s;
+
+      &.is-shown {
+        opacity: 1;
+      }
+    }
   }
 
   footer {

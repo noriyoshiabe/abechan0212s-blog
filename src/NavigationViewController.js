@@ -4,6 +4,14 @@ import "regenerator-runtime/runtime";
 import { NAViewController, NAView } from 'nvc';
 import html from './NavigationView.html';
 
+const defer = () => {
+	return new Promise(resolve => {
+		setTimeout(() => {
+			resolve();
+		});
+	})	
+}
+
 class NavigationViewController extends NAViewController {
   vcs = {}
 
@@ -32,20 +40,14 @@ class NavigationViewController extends NAViewController {
       return;
     }
 
-    await Promise.all([
-      nextVC.viewWillAppear?.(),
-      this.currentVC?.viewWillDisappear?.(),
-      this.willTransit(),
-    ].filter(Boolean));
+    await this.willTransit(nextVC, this.currentVC),
+    await nextVC.viewWillAppear?.(),
 
     this.view.content.appendChild(nextVC.view.element);
     this.currentVC && this.view.content.removeChild(this.currentVC.view.element);
 
-    await Promise.all([
-      nextVC.viewDidAppear?.(),
-      this.currentVC?.viewDidDisappear?.(),
-      this.didTransit(),
-    ].filter(Boolean));
+    await nextVC.viewDidAppear?.(),
+    await this.didTransit(nextVC, this.currentVC),
 
     this.currentVC = nextVC;
   }
@@ -72,16 +74,20 @@ class NavigationViewController extends NAViewController {
     return this.ctx.pathname;
   }
 
-  async willTransit() {
+  async willTransit(nextVC, currentVC) {
     if (this.ctx.pathname === '/') {
       this.view.profile_image.classList.remove("is-away")
       this.view.profile_image.classList.add("is-ready")
     } else {
       this.view.profile_image.classList.add("is-away")
     }
+
+    currentVC?.view.element.classList.remove("is-shown");
   }
 
-  async didTransit() {
+  async didTransit(currentVC, prevVC) {
+    await defer();
+    currentVC.view.element.classList.add("is-shown");
   }
 
   _onClickProfile(e) {
