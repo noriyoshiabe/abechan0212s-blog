@@ -67,10 +67,10 @@ class NavigationViewController extends NAViewController {
 
   didTransit(currentVC, prevVC) {
     if (this.ctx.pathname === '/') {
-      this.view.profile_image.classList.remove("is-away")
-      this.view.profile_image.classList.add("is-ready")
+      this.view.profile_image_wrapper.classList.remove("is-away")
+      this.view.profile_image_wrapper.classList.add("is-ready")
     } else {
-      this.view.profile_image.classList.add("is-away")
+      this.view.profile_image_wrapper.classList.add("is-away")
     }
 
     prevVC?.view.element.classList.remove("is-shown");
