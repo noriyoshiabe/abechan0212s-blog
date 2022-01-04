@@ -1,8 +1,8 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-import { NAViewController, NAView, NAObject } from 'nvc';
-import html from './TopView.html';
+import { NAViewController, NAView, NAObject } from "nvc";
+import html from "./TopView.html";
 
 class TopViewController extends NAViewController {
   constructor() {
@@ -24,8 +24,8 @@ class TopViewController extends NAViewController {
 
     let selectionVC = new SelectionViewController(this.view.selectionView, siteIndex.tags);
 
-    let posts = siteIndex.posts.ids.map(id => siteIndex.posts.byId[id]);
-    posts.forEach(post => {
+    let posts = siteIndex.posts.ids.map((id) => siteIndex.posts.byId[id]);
+    posts.forEach((post) => {
       let vc = new ListItemViewController(this.view.list_item_tpl);
       vc.post = post;
       vc.selection = selectionVC.selection;
@@ -72,10 +72,10 @@ class SelectionViewController extends NAViewController {
       let selectionItemView = new NAView(this.view.selection_item_tpl);
 
       selectionItemView.check.id = tag;
-      selectionItemView.label.setAttribute('for', tag);
+      selectionItemView.label.setAttribute("for", tag);
       selectionItemView.label.innerText = tag;
 
-      selectionItemView.bind('check', {to: this.selection, keyPath: `tags.${tag}`});
+      selectionItemView.bind("check", {to: this.selection, keyPath: `tags.${tag}`});
 
       this.view.element.appendChild(selectionItemView.element);
     });
@@ -103,7 +103,7 @@ class ListItemViewController extends NAViewController {
 
     if (this._post.thumbnailUrl) {
       this.view.thumbnail.src = this._post.thumbnailUrl;
-      this.view.thumbnail.classList.remove('is-hidden');
+      this.view.thumbnail.classList.remove("is-hidden");
     }
   }
 
@@ -118,9 +118,9 @@ class ListItemViewController extends NAViewController {
           || this._selection.selectedTags.every(tag => this._post.tags.includes(tag));
 
       if (willShow) {
-        this.view.element.classList.remove('is-hidden');
+        this.view.element.classList.remove("is-hidden");
       } else {
-        this.view.element.classList.add('is-hidden');
+        this.view.element.classList.add("is-hidden");
       }
     }
   }

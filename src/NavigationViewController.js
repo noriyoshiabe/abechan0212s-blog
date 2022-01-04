@@ -1,16 +1,16 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-import { NAViewController, NAView } from 'nvc';
-import html from './NavigationView.html';
+import { NAViewController, NAView } from "nvc";
+import html from "./NavigationView.html";
 
 class NavigationViewController extends NAViewController {
-  vcs = {}
+  vcs = {};
 
   constructor(siteIndex) {
     super(new NAView(html));
     this.siteIndex = siteIndex;
-    this.view.profile_image.addEventListener('click', this._onClickProfile.bind(this));
+    this.view.profile_image.addEventListener("click", this._onClickProfile.bind(this));
   }
 
   show(ViewController, ctx) {
@@ -37,7 +37,7 @@ class NavigationViewController extends NAViewController {
     this.currentVC = nextVC;
 
     if (!ctx.state.pageShown) {
-      setTimeout(() => window.scroll(0 , 0));
+      setTimeout(() => window.scroll(0, 0));
     }
     ctx.state.pageShown = true;
     setTimeout(() => ctx.save());
@@ -46,8 +46,8 @@ class NavigationViewController extends NAViewController {
   set metaInfo(meta) {
     document.title = meta.htmlTitle;
 
-    document.querySelector('meta[name=title]').content = meta.title;
-    document.querySelector('meta[name=description]').content = meta.description;
+    document.querySelector("meta[name=title]").content = meta.title;
+    document.querySelector("meta[name=description]").content = meta.description;
 
     document.querySelector('meta[property="og:url"]').content = meta.url;
     document.querySelector('meta[property="og:title"]').content = meta.title;
@@ -58,7 +58,7 @@ class NavigationViewController extends NAViewController {
     document.querySelector('meta[name="twitter:description"]').content = meta.description;
     document.querySelector('meta[name="twitter:image"]').content = meta.imgUrl;
 
-    document.querySelector('link[rel=canonical]').href = meta.url;
+    document.querySelector("link[rel=canonical]").href = meta.url;
   }
 
   get pathname() {
@@ -66,24 +66,21 @@ class NavigationViewController extends NAViewController {
   }
 
   didTransit(currentVC, prevVC) {
-    if (this.ctx.pathname === '/') {
-      this.view.profile_image_wrapper.classList.remove("is-away")
-      this.view.profile_image_wrapper.classList.add("is-ready")
+    if (this.ctx.pathname === "/") {
+      this.view.profile_image_wrapper.classList.remove("is-away");
+      this.view.profile_image_wrapper.classList.add("is-ready");
     } else {
-      this.view.profile_image_wrapper.classList.add("is-away")
+      this.view.profile_image_wrapper.classList.add("is-away");
     }
 
     prevVC?.view.element.classList.remove("is-shown");
-
-    setTimeout(() => {
-      currentVC.view.element.classList.add("is-shown");
-    });
+    setTimeout(() => currentVC.view.element.classList.add("is-shown"));
   }
 
   _onClickProfile(e) {
-    if (this.ctx.pathname === '/') {
-      this.view.message.classList.remove('is-active');
-      setTimeout(() => this.view.message.classList.add('is-active'), 50);
+    if (this.ctx.pathname === "/") {
+      this.view.message.classList.remove("is-active");
+      setTimeout(() => this.view.message.classList.add("is-active"), 50);
     }
   }
 }

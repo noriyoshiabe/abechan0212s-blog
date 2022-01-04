@@ -1,16 +1,16 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-import page from 'page';
+import page from "page";
 
-import 'normalize.css';
-import './index.scss';
+import "normalize.css";
+import "./index.scss";
 
-import NavigationViewController from './NavigationViewController';
-import TopViewController from './TopViewController';
-import PostViewController from './PostViewController';
+import NavigationViewController from "./NavigationViewController";
+import TopViewController from "./TopViewController";
+import PostViewController from "./PostViewController";
 
-let siteIndexUrl = document.querySelector('meta[name=site-index]').content;
+let siteIndexUrl = document.querySelector("meta[name=site-index]").content;
 
 (async () => {
   let response = await fetch(siteIndexUrl);
@@ -19,7 +19,7 @@ let siteIndexUrl = document.querySelector('meta[name=site-index]').content;
   const nav = new NavigationViewController(siteIndex);
   document.body.appendChild(nav.view.element);
 
-  page('/', (ctx) => nav.show(TopViewController, ctx));
-  page('/:id', (ctx) => nav.show(PostViewController, ctx));
+  page("/", (ctx) => nav.show(TopViewController, ctx));
+  page("/:id", (ctx) => nav.show(PostViewController, ctx));
   page();
 })();
