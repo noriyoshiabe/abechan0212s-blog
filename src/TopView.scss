@@ -1,11 +1,8 @@
 .TopView {
   header {
-    padding: 0 5px;
-
     .link {
       margin-top: 108px;
       margin-left: calc(50% + 5px);
-      font-size: 16px;
 
       > p {
         margin: 8px 0;
@@ -13,7 +10,6 @@
     }
 
     .sns {
-      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -24,19 +20,21 @@
     }
 
     h1 {
-      color: black;
-      margin: 0 0 10px;
-      padding-top: 23px;
-      width: 100%;
+      margin: 31px 0 10px;
       text-align: center;
-      font-size: 34px;
     }
   }
 
   .selection {
+    margin-top: 25px;
     list-style: none;
     text-align: center;
     padding: 0;
+    // for https://github.com/postcss/autoprefixer/issues/1271
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 
     li {
       display: inline-block;
@@ -61,63 +59,65 @@
 
   .list {
     margin: 30px auto 80px;
-    list-style: none;
-    padding: 0;
     width: 100%;
-    max-width: 680px;
+    max-width: calc(648px - 32px);
 
-    > li {
-      position: relative;
-      overflow: hidden;
+    &--item {
+      display: grid;
+      grid-template-rows: 0fr 0fr 0fr 0fr;
+      grid-template-columns: 1fr 0fr;
+      grid-template-areas: "title       title"
+                           "description thumbnail"
+                           "tag_list    thumbnail"
+                           "date        thumbnail";
+      & * { margin: 0; }
+
       height: 145px;
-      margin-bottom: 30px;
+      overflow: hidden;
       transition: all 0.2s;
 
       &.is-hidden {
-        display: block;
+        display: grid;
         height: 0;
-        margin-bottom: 0;
       }
 
-      h2 {
-        font-size: 18px;
-        margin: 10px 0 0;
+      .title {
+        grid-area: title;
       }
 
-      .detail {
+      .description {
         margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
+        grid-area: description;
+      }
 
-        .description {
-          font-size: 16px;
-          margin: 0 0 5px;
-        }
+      .tag_list {
+        margin-top: 10px;
+        grid-area: tag_list;
+        list-style: none;
+        padding: 0;
 
-        .tag_list {
-          margin-top: 10px;
-          list-style: none;
-          padding: 0;
+        li {
+          display: inline-block;
+          border-bottom: dotted 1px $c-text;
 
-          li {
-            display: inline-block;
-            margin-right: 5px;
-            font-size: 14px;
-            color: $c-text;
-            border-bottom: dotted 1px $c-text;
+          &:nth-child(n + 2) {
+            margin-left: 10px;
           }
         }
+      }
 
-        .date {
-          margin-top: 5px;
-          font-size: 14px;
-        }
+      .date {
+        margin-top: 4px;
+        grid-area: date;
+      }
 
-        img {
-          margin-right: 5px;
-          width: 80px;
-          height: 80px;
-        }
+      img {
+        grid-area: thumbnail;
+        justify-self: end;
+        margin-top: 10px;
+        margin-left: 10px;
+        width: 80px;
+        height: 80px;
       }
     }
   }
@@ -126,20 +126,10 @@
 @media screen and (max-width: 374px) {
   .TopView {
     .list {
-      > li {
-        h2 {
-          font-size: 17px;
-        }
-
-        .detail {
-          .description {
-            font-size: 14px;
-          }
-
-          img {
-            width: 64px;
-            height: 64px;
-          }
+      &--item {
+        img {
+          width: 64px;
+          height: 64px;
         }
       }
     }

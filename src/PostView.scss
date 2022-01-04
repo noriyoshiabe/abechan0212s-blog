@@ -1,16 +1,13 @@
 .PostView {
   margin: 0 auto;
-  max-width: 768px;
+  max-width: 640px;
 
   .title {
     margin-top: 80px;
-    font-size: 1.75em;
   }
 
   .date {
-    margin-top: 30px;
     text-align: right;
-    font-size: 1.2em;
   }
 
   .body {

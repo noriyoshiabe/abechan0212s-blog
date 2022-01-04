@@ -1,11 +1,11 @@
 <div class="TopView">
   <header>
     <div class="link">
-      <p><a na-view-property="fixed_link1"></a></p>
-      <p><a na-view-property="fixed_link2"></a></p>
-      <p><a href="https://nasequencer.com/" target="_blank" rel=“noopener”>NASequencer<img src="assets/arrow.svg" width="8" style="margin-left: 4px;"/></a></p>
+      <p><a class="fz-md" na-view-property="fixed_link1"></a></p>
+      <p><a class="fz-md" na-view-property="fixed_link2"></a></p>
+      <p><a class="fz-md" href="https://nasequencer.com/" target="_blank" rel=“noopener”>NASequencer<img src="assets/arrow.svg" width="8" style="margin-left: 4px;"/></a></p>
     </div>
-    <h1 na-view-property="site_name"></h1>
+    <h1 class="fz-xl" na-view-property="site_name"></h1>
     <div class="sns">
       <a href="https://www.youtube.com/user/abechan0212" target="_blank" rel=“noopener”>
         <img src="assets/youtube.svg" alt="youtube.svg" width="28" />
@@ -28,25 +28,21 @@
     </template>
   </ul>
 
-  <ul class="list" na-view-property="list">
-    <template na-view-property="list_item_tpl">
-      <li>
-        <a na-view-property="link">
-          <h2 na-view-property="title"></h2>
-        </a>
-        <div class="detail">
-          <div>
-            <p class="description" na-view-property="description"></p>
-            <ul class="tag_list" na-view-property="tag_list">
-              <template na-view-property="tag_tpl">
-                <li></li>
-              </template>
-            </ul>
-            <p class="date" na-view-property="date"></p>
-          </div>
-          <img na-view-property="thumbnail" class="is-hidden" />
-        </div>
-      </li>
-    </template>
-  </ul>
+  <div class="list" na-view-property="list">
+  </div>
+  <template na-view-property="list_item_tpl">
+    <div class="list--item">
+      <h2 class="title fz-lg">
+        <a na-view-property="title"></a>
+      </h2>
+      <p class="description fz-md" na-view-property="description"></p>
+      <p class="date fz-sm" na-view-property="date"></p>
+      <ul class="tag_list" na-view-property="tag_list">
+      </ul>
+      <template na-view-property="tag_tpl">
+        <li class="fz-sm"></li>
+      </template>
+      <img na-view-property="thumbnail" class="is-hidden"/>
+    </div>
+  </template>
 </div>

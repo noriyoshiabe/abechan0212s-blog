@@ -8,7 +8,22 @@ body {
   color: $c-text;
   font-family: 'Helvetica Neue', Helvetica, 'Segoe UI', Arial, freesans, sans-serif;
   font-weight: $fw-normal;
+  font-size: 16px;
 }
+
+@media screen and (max-width: 647px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+
+h1 {
+  color: black;
+}
+h2, h3, h4, h4, h6 {
+  color: $c-text;
+} 
 
 a {
   color: $c-text;
@@ -23,6 +38,13 @@ a {
 .is-hidden {
   display: none;
 }
+
+.fz-xl  { font-size: 2.125em; }
+.fz-lg  { font-size: 1.2em; }
+.fz-md  { font-size: 1em; }
+.fz-sm  { font-size: 0.875em; }
+.fz-xs  { font-size: 0.75em; }
+
 
 @import "./NavigationView.scss";
 @import "./TopView.scss";

@@ -90,7 +90,7 @@ class ListItemViewController extends NAViewController {
   set post(_post) {
     this._post = _post;
 
-    this.view.link.href = _post.url;
+    this.view.title.href = _post.url;
     this.view.title.innerText = _post.title;
     this.view.description.innerText = _post.description;
     this.view.date.innerText = _post.date;
