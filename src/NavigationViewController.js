@@ -66,6 +66,16 @@ class NavigationViewController extends NAViewController {
     return this.ctx.pathname;
   }
 
+  smoothScrollToY(y) {
+    document.body.style.transition = "initial";
+    document.body.style.marginTop = "-" + (window.pageYOffset - y) + "px";
+
+    window.scrollTo(0, y);
+
+    document.body.style.transition = "margin-top 0.2s";
+    document.body.style.marginTop = "0";
+  }
+
   didTransit(currentVC, prevVC) {
     this.view.profile_image_wrapper.classList.add("is-animating");
 

@@ -27,19 +27,31 @@ class TopViewController extends NAViewController {
     let posts = siteIndex.posts.ids.map((id) => siteIndex.posts.byId[id]);
     posts.forEach((post) => {
       let vc = new ListItemViewController(this.view.list_item_tpl);
-      vc.post = post;
+      vc.addObserver(this, this._observer);
       vc.selection = selectionVC.selection;
+      vc.post = post;
       this.view.list.appendChild(vc.view.element);
     });
   }
 
   viewDidAppear() {
     this.navVC.metaInfo = this.top;
+
+    this.selectionViewRect = this.view.selectionView.element.getBoundingClientRect();
+  }
+
+  _observer(sender, event) {
+    if (ListItemViewController.EventSelectionChange === event) {
+      let toY = this.selectionViewRect.y - 15;
+      if (toY < window.scrollY) {
+        this.navVC.smoothScrollToY(toY);
+      }
+    }
   }
 }
 
 class Selection extends NAObject {
-  static EventChanged = "Selection:EventChanged";
+  static EventChanged = "Selection.EventChanged";
 
   constructor(tags) {
     super();
@@ -52,6 +64,11 @@ class Selection extends NAObject {
     this.selectedTags = [];
 
     this.addObserver(this, this._observer);
+  }
+
+  toggle(tag) {
+    this.tags[tag] = this.tags[tag] ? null : "on";
+    this.triggerChange(this);
   }
 
   _observer(sender, event) {
@@ -83,8 +100,15 @@ class SelectionViewController extends NAViewController {
 }
 
 class ListItemViewController extends NAViewController {
+  static EventSelectionChange = "ListItemViewController.EventSelectionChange";
+
   constructor(listItemTpl) {
     super(new NAView(listItemTpl));
+  }
+
+  set selection(_selection) {
+    this._selection = _selection;
+    this._selection.addObserver(this, this._observer);
   }
 
   set post(_post) {
@@ -96,9 +120,10 @@ class ListItemViewController extends NAViewController {
     this.view.date.innerText = _post.date;
 
     this._post.tags.forEach(tag => {
-      let tagView = new NAView(this.view.tag_tpl);
-      tagView.element.innerText = tag;
-      this.view.tag_list.appendChild(tagView.element);
+      let tagVC = new ListItemTagViewController(this.view.tag_tpl, tag);
+      tagVC.addObserver(this, this._observer);
+      tagVC.selection = this._selection;
+      this.view.tag_list.appendChild(tagVC.view.element);
     });
 
     if (this._post.thumbnailUrl) {
@@ -107,13 +132,9 @@ class ListItemViewController extends NAViewController {
     }
   }
 
-  set selection(_selection) {
-    this._selection = _selection;
-    this._selection.addObserver(this, this._observer);
-  }
-
   _observer(sender, event) {
-    if (Selection.EventChange === event) {
+    switch (event) {
+    case Selection.EventChange:
       let willShow = 0 == this._selection.selectedTags.length
           || this._selection.selectedTags.every(tag => this._post.tags.includes(tag));
 
@@ -122,7 +143,47 @@ class ListItemViewController extends NAViewController {
       } else {
         this.view.element.classList.add("is-hidden");
       }
+      break;
+    case ListItemTagViewController.EventSelectionChange:
+      this.notify(ListItemViewController.EventSelectionChange);
+      break;
     }
+  }
+}
+
+class ListItemTagViewController extends NAViewController {
+  static EventSelectionChange = "ListItemTagViewController.EventSelectionChange";
+
+  constructor(tagTpl, tag) {
+    super(new NAView(tagTpl));
+    this.tag = tag;
+    this.view.element.innerText = tag;
+    this.view.element.addEventListener("click", this._onClick.bind(this));
+  }
+
+  set selection(_selection) {
+    this._selection = _selection;
+    this._selection.addObserver(this, this._observer);
+    this._updateSelectedClass();
+  }
+
+  _updateSelectedClass() {
+    if (this._selection.selectedTags.includes(this.tag)) {
+      this.view.element.classList.add("is-selected");
+    } else {
+      this.view.element.classList.remove("is-selected");
+    }
+  }
+
+  _observer(sender, event) {
+    if (Selection.EventChange === event) {
+      this._updateSelectedClass();
+    }
+  }
+
+  _onClick() {
+    this._selection.toggle(this.tag);
+    this.notify(ListItemTagViewController.EventSelectionChange);
   }
 }
 

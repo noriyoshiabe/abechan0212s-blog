@@ -60,7 +60,7 @@
   }
 
   .list {
-    margin: 35px auto 80px;
+    margin: 40px auto 80px;
     width: 100%;
     max-width: calc(648px - 32px);
 
@@ -74,7 +74,7 @@
                            "date        thumbnail";
       & * { margin: 0; }
 
-      height: 145px;
+      height: 150px;
       overflow: hidden;
       transition: all 0.2s;
 
@@ -101,9 +101,15 @@
         li {
           display: inline-block;
           border-bottom: dotted 1px $c-text;
+          cursor: pointer;
 
           &:nth-child(n + 2) {
             margin-left: 10px;
+          }
+
+          &.is-selected {
+            color: $c-highlight;
+            border-bottom: dotted 1px $c-highlight;
           }
         }
       }
