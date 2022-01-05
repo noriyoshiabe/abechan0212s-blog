@@ -36,7 +36,6 @@ class SSGPlugin {
     let willEmitAssets = [];
 
     let posts = {};
-    let tags = new Set();
 
     const defaultHtmlPluginOptions = {
       template: "public/index.html",
@@ -55,8 +54,14 @@ class SSGPlugin {
 
     compiler.options.plugins.push(new HtmlWebpackPlugin(defaultHtmlPluginOptions));
 
+    const master = YAML.parse(fs.readFileSync(path.resolve(__dirname, postsDir, "master.yml"), 'utf8'));
+
     const indivisualPostDirs = fs.readdirSync(path.resolve(__dirname, postsDir)).filter((dir) => !dir.startsWith('.'));
     indivisualPostDirs.forEach(dir => {
+      if (!fs.lstatSync(path.resolve(__dirname, postsDir, dir)).isDirectory()) {
+        return;
+      }
+
       let htmlPluginOptions = Object.assign({}, defaultHtmlPluginOptions);
       let permalink = dir.substring(9);
       let post = {
@@ -86,6 +91,11 @@ class SSGPlugin {
           if (!yaml.date) throw new Error(`\`date\` missing in ${filePath}`);
           if (!yaml.tags) throw new Error(`\`tags\` missing in ${filePath}`);
           if (!yaml.tags instanceof Array) throw new Error(`\`tags\` in ${filePath} is not array`);
+          yaml.tags.forEach(tag => {
+            if (!master.tags.includes(tag)) {
+              throw new Error(`\`${tag}\` is not exist in master`);
+            }
+          });
 
           htmlPluginOptions.title = `${yaml.title} - ${siteName}`;
           htmlPluginOptions.description = yaml.description;
@@ -125,8 +135,6 @@ class SSGPlugin {
         'imgUrl',
         'thumbnailUrl',
       ]); // for json key order
-
-      post.tags.forEach(t => tags.add(t));
 
       compiler.options.plugins.push(new HtmlWebpackPlugin(htmlPluginOptions));
     });
@@ -188,7 +196,7 @@ class SSGPlugin {
               byId: _posts,
               ids: Object.keys(_posts).reverse(),
             },
-            tags: Array.from(tags)
+            tags: master.tags,
           };
           compilation.emitAsset('index.json', new webpack.sources.RawSource(JSON.stringify(siteIndex, null, 2)));
 
