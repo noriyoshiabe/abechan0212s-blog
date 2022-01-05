@@ -24,8 +24,6 @@
 
 .md a {
     background: 0 0;
-    color: $c-highlight;
-    text-decoration: none
 }
 .md a:active,
 .md a:hover {
@@ -34,7 +32,7 @@
 .md a:active,
 .md a:focus,
 .md a:hover {
-    text-decoration: underline
+    color: $c-highlight;
 }
 .md strong {
     font-weight: 700
