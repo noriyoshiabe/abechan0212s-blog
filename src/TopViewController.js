@@ -22,42 +22,59 @@ class TopViewController extends NAViewController {
     this.view.fixed_link2.href = aboutThisSite.url;
     this.view.fixed_link2.innerText = aboutThisSite.title;
 
-    this.selectionVC = new SelectionViewController(this.view.selectionView, siteIndex.tags);
+    this.selection = new Selection(siteIndex.tags);
+    this.selection.addObserver(this, this._observer);
+
+    this.selectionVC = new SelectionViewController(this.view.selectionView);
+    this.selectionVC.selection = this.selection;
 
     let posts = siteIndex.posts.ids.map((id) => siteIndex.posts.byId[id]);
     posts.forEach((post) => {
       let vc = new ListItemViewController(this.view.list_item_tpl);
       vc.addObserver(this, this._observer);
-      vc.selection = this.selectionVC.selection;
+      vc.selection = this.selection;
       vc.post = post;
       this.view.list.appendChild(vc.view.element);
     });
   }
 
   viewWillAppear(ctx) {
+    this.ctx = ctx;
+
     if (!ctx.state.pageShown) {
-      this.selectionVC.selection.reset();
+      this.selection.reset();
+    } else {
+      if (ctx.state.selectionState) {
+        this.selection.state = ctx.state.selectionState;
+      }
     }
   }
 
-  viewDidAppear() {
+  viewDidAppear(ctx) {
     this.navVC.metaInfo = this.top;
-
     this.selectionViewRect = this.view.selectionView.element.getBoundingClientRect();
   }
 
   _observer(sender, event) {
-    if (ListItemViewController.EventSelectionChange === event) {
+    switch (event) {
+    case Selection.EventChange:
+      this.ctx.state.selectionState = this.selection.state;
+      setTimeout(() => this.ctx.save());
+      break;
+    case ListItemViewController.EventSelectionChange:
       let toY = this.selectionViewRect.y - 15;
       if (toY < window.scrollY) {
         this.navVC.smoothScrollToY(toY);
       }
+      break;
     }
   }
 }
 
 class Selection extends NAObject {
   static EventChanged = "Selection.EventChanged";
+
+  selectedTags = [];
 
   constructor(tags) {
     super();
@@ -67,9 +84,16 @@ class Selection extends NAObject {
       return obj;
     }, {});
 
-    this.selectedTags = [];
-
     this.addObserver(this, this._observer);
+  }
+
+  set state(state) {
+    this.tags = state.tags;
+    this.triggerChange(this);
+  }
+
+  get state() {
+    return {tags: this.tags};
   }
 
   reset() {
@@ -91,19 +115,21 @@ class Selection extends NAObject {
 }
 
 class SelectionViewController extends NAViewController {
-  constructor(selectionView, tags) {
+  constructor(selectionView) {
     super(selectionView);
+  }
 
-    this.selection = new Selection(tags);
+  set selection(_selection) {
+    this._selection = _selection;
 
-    tags.forEach(tag => {
+    Object.keys(_selection.tags).forEach(tag => {
       let selectionItemView = new NAView(this.view.selection_item_tpl);
 
       selectionItemView.check.id = tag;
       selectionItemView.label.setAttribute("for", tag);
       selectionItemView.label.innerText = tag;
 
-      selectionItemView.bind("check", {to: this.selection, keyPath: `tags.${tag}`});
+      selectionItemView.bind("check", {to: this._selection, keyPath: `tags.${tag}`});
 
       this.view.element.appendChild(selectionItemView.element);
     });
