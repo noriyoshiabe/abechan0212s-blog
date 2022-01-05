@@ -22,16 +22,22 @@ class TopViewController extends NAViewController {
     this.view.fixed_link2.href = aboutThisSite.url;
     this.view.fixed_link2.innerText = aboutThisSite.title;
 
-    let selectionVC = new SelectionViewController(this.view.selectionView, siteIndex.tags);
+    this.selectionVC = new SelectionViewController(this.view.selectionView, siteIndex.tags);
 
     let posts = siteIndex.posts.ids.map((id) => siteIndex.posts.byId[id]);
     posts.forEach((post) => {
       let vc = new ListItemViewController(this.view.list_item_tpl);
       vc.addObserver(this, this._observer);
-      vc.selection = selectionVC.selection;
+      vc.selection = this.selectionVC.selection;
       vc.post = post;
       this.view.list.appendChild(vc.view.element);
     });
+  }
+
+  viewWillAppear(ctx) {
+    if (!ctx.state.pageShown) {
+      this.selectionVC.selection.reset();
+    }
   }
 
   viewDidAppear() {
@@ -64,6 +70,11 @@ class Selection extends NAObject {
     this.selectedTags = [];
 
     this.addObserver(this, this._observer);
+  }
+
+  reset() {
+    Object.keys(this.tags).forEach(tag => this.tags[tag] = null);
+    this.triggerChange(this);
   }
 
   toggle(tag) {

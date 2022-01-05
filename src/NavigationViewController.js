@@ -29,10 +29,12 @@ class NavigationViewController extends NAViewController {
       return;
     }
 
+    nextVC.viewWillAppear?.(ctx);
+
     this.view.content.appendChild(nextVC.view.element);
     this.currentVC && this.view.content.removeChild(this.currentVC.view.element);
 
-    nextVC.viewDidAppear?.();
+    nextVC.viewDidAppear?.(ctx);
     this.didTransit(nextVC, this.currentVC);
 
     this.currentVC = nextVC;
