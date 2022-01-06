@@ -60,7 +60,7 @@
   }
 
   .list {
-    margin: 40px auto 80px;
+    margin: 40px auto 60px;
     width: 100%;
     max-width: calc(648px - 32px);
 
@@ -74,13 +74,13 @@
                            "date        thumbnail";
       & * { margin: 0; }
 
-      height: 150px;
+      /* height: set by js on initial; */
       overflow: hidden;
       transition: all 0.2s;
 
       &.is-hidden {
         display: grid;
-        height: 0;
+        height: 0 !important;
       }
 
       .title {

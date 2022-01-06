@@ -167,6 +167,8 @@ class ListItemViewController extends NAViewController {
       this.view.thumbnail.src = this._post.thumbnailUrl;
       this.view.thumbnail.classList.remove("is-hidden");
     }
+
+    setTimeout(() => this.view.element.style.height = this.view.element.clientHeight + 50 + 'px');
   }
 
   _observer(sender, event) {
