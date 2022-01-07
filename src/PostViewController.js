@@ -13,21 +13,20 @@ class PostViewController extends NAViewController {
     super(new NAView(html));
   }
 
+  set siteIndex(siteIndex) {
+    this.post = siteIndex.posts.byId[this.navVC.pathname.substring(1).split("/")[0]];
+
+    this.view.title.innerText = this.post.title;
+    this.view.date.innerText = this.post.date;
+
+    (async () => {
+      let response = await fetch(this.post.bodyUrl);
+      let raw = await response.text();
+      this.view.body.innerHTML = md.render(raw);
+    })();
+  }
+
   viewDidAppear() {
-    this.post = this.siteIndex.posts.byId[this.navVC.pathname.substring(1).split("/")[0]];
-
-    if (!this.rendered) {
-      this.view.title.innerText = this.post.title;
-      this.view.date.innerText = this.post.date;
-
-      (async () => {
-        let response = await fetch(this.post.bodyUrl);
-        let raw = await response.text();
-        this.view.body.innerHTML = md.render(raw);
-        this.rendered = true;
-      })();
-    }
-
     this.navVC.metaInfo = this.post;
   }
 }
