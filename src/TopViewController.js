@@ -22,11 +22,12 @@ class TopViewController extends NAViewController {
     this.view.fixed_link2.href = aboutThisSite.url;
     this.view.fixed_link2.innerText = aboutThisSite.title;
 
-    this.selection = new Selection(siteIndex.tags);
+    this.selection = new Selection();
     this.selection.addObserver(this, this._observer);
 
-    this.selectionVC = new SelectionViewController(this.view.selectionView);
-    this.selectionVC.selection = this.selection;
+    let selectionVC = new SelectionViewController(this.view.selectionView);
+    selectionVC.selection = this.selection;
+    selectionVC.tags = siteIndex.tags;
 
     let posts = siteIndex.posts.ids.map((id) => siteIndex.posts.byId[id]);
     posts.forEach((post) => {
@@ -74,41 +75,34 @@ class TopViewController extends NAViewController {
 class Selection extends NAObject {
   static EventChanged = "Selection.EventChanged";
 
-  selectedTags = [];
+  selectedTag = null;
 
-  constructor(tags) {
+  constructor() {
     super();
-
-    this.tags = tags.reduce((obj, k) => {
-      obj[k] = null;
-      return obj;
-    }, {});
-
     this.addObserver(this, this._observer);
   }
 
   set state(state) {
-    this.tags = state.tags;
+    this.selectedTag = state.selectedTag;
     this.triggerChange(this);
   }
 
   get state() {
-    return {tags: this.tags};
+    return {selectedTag: this.selectedTag};
   }
 
   reset() {
-    Object.keys(this.tags).forEach(tag => this.tags[tag] = null);
+    this.selectedTag = null;
     this.triggerChange(this);
   }
 
-  toggle(tag) {
-    this.tags[tag] = this.tags[tag] ? null : "on";
+  select(tag) {
+    this.selectedTag = this.selectedTag == tag ? null : tag;
     this.triggerChange(this);
   }
 
   _observer(sender, event) {
     if (NAObject.EventChange === event) {
-      this.selectedTags = Object.keys(this.tags).map(tag => this.tags[tag] ? tag : false).filter(Boolean);
       this.notify(this, Selection.EventChanged);
     }
   }
@@ -121,15 +115,18 @@ class SelectionViewController extends NAViewController {
 
   set selection(_selection) {
     this._selection = _selection;
+  }
 
-    Object.keys(_selection.tags).forEach(tag => {
+  set tags(_tags) {
+    _tags.forEach(tag => {
       let selectionItemView = new NAView(this.view.selection_item_tpl);
 
       selectionItemView.check.id = tag;
+      selectionItemView.check.value = tag;
       selectionItemView.label.setAttribute("for", tag);
       selectionItemView.label.innerText = tag;
 
-      selectionItemView.bind("check", {to: this._selection, keyPath: `tags.${tag}`});
+      selectionItemView.bind("check", {to: this._selection, keyPath: 'selectedTag'});
 
       this.view.element.appendChild(selectionItemView.element);
     });
@@ -157,9 +154,10 @@ class ListItemViewController extends NAViewController {
     this.view.date.innerText = _post.date;
 
     this._post.tags.forEach(tag => {
-      let tagVC = new ListItemTagViewController(this.view.tag_tpl, tag);
-      tagVC.addObserver(this, this._observer);
+      let tagVC = new ListItemTagViewController(this.view.tag_tpl);
       tagVC.selection = this._selection;
+      tagVC.tag = tag;
+      tagVC.addObserver(this, this._observer);
       this.view.tag_list.appendChild(tagVC.view.element);
     });
 
@@ -174,8 +172,7 @@ class ListItemViewController extends NAViewController {
   _observer(sender, event) {
     switch (event) {
     case Selection.EventChange:
-      let willShow = 0 == this._selection.selectedTags.length
-          || this._selection.selectedTags.every(tag => this._post.tags.includes(tag));
+      let willShow = this._selection.selectedTag == null || this._post.tags.includes(this._selection.selectedTag);
 
       if (willShow) {
         this.view.element.classList.remove("is-hidden");
@@ -193,21 +190,23 @@ class ListItemViewController extends NAViewController {
 class ListItemTagViewController extends NAViewController {
   static EventSelectionChange = "ListItemTagViewController.EventSelectionChange";
 
-  constructor(tagTpl, tag) {
+  constructor(tagTpl) {
     super(new NAView(tagTpl));
-    this.tag = tag;
-    this.view.element.innerText = tag;
-    this.view.element.addEventListener("click", this._onClick.bind(this));
   }
 
   set selection(_selection) {
     this._selection = _selection;
     this._selection.addObserver(this, this._observer);
-    this._updateSelectedClass();
+  }
+
+  set tag(_tag) {
+    this._tag = _tag;
+    this.view.element.innerText = _tag;
+    this.view.element.addEventListener("click", this._onClick.bind(this));
   }
 
   _updateSelectedClass() {
-    if (this._selection.selectedTags.includes(this.tag)) {
+    if (this._selection.selectedTag == this._tag) {
       this.view.element.classList.add("is-selected");
     } else {
       this.view.element.classList.remove("is-selected");
@@ -221,7 +220,7 @@ class ListItemTagViewController extends NAViewController {
   }
 
   _onClick() {
-    this._selection.toggle(this.tag);
+    this._selection.select(this._tag);
     this.notify(ListItemTagViewController.EventSelectionChange);
   }
 }

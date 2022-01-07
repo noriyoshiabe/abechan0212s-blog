@@ -98,6 +98,12 @@
         list-style: none;
         padding: 0;
 
+        // for https://github.com/postcss/autoprefixer/issues/1271
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+
         li {
           display: inline-block;
           border-bottom: dotted 1px $c-text;
