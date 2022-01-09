@@ -27,6 +27,7 @@ const config = {
     open: true,
     host: "0.0.0.0",
   },
+  target: ["web", "es5"],
   plugins: [
     new SSGPlugin(),
 
