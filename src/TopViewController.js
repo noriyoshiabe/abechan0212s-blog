@@ -73,7 +73,7 @@ class TopViewController extends NAViewController {
 }
 
 class Selection extends NAObject {
-  static EventChanged = "Selection.EventChanged";
+  static EventChange = "Selection.EventChange";
 
   selectedTag = null;
 
@@ -103,7 +103,7 @@ class Selection extends NAObject {
 
   onNotifyEvent(sender, event) {
     if (NAObject.EventChange === event) {
-      this.notify(this, Selection.EventChanged);
+      this.notify(Selection.EventChange);
     }
   }
 }
