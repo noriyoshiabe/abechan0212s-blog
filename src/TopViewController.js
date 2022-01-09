@@ -23,7 +23,7 @@ class TopViewController extends NAViewController {
     this.view.fixed_link2.innerText = aboutThisSite.title;
 
     this.selection = new Selection();
-    this.selection.addObserver(this, this._observer);
+    this.selection.addObserver(this);
 
     let selectionVC = new SelectionViewController(this.view.selectionView);
     selectionVC.selection = this.selection;
@@ -32,7 +32,7 @@ class TopViewController extends NAViewController {
     let posts = siteIndex.posts.ids.map((id) => siteIndex.posts.byId[id]);
     posts.forEach((post) => {
       let vc = new ListItemViewController(this.view.list_item_tpl);
-      vc.addObserver(this, this._observer);
+      vc.addObserver(this);
       vc.selection = this.selection;
       vc.post = post;
       this.view.list.appendChild(vc.view.element);
@@ -56,7 +56,7 @@ class TopViewController extends NAViewController {
     this.selectionViewRect = this.view.selectionView.element.getBoundingClientRect();
   }
 
-  _observer(sender, event) {
+  onNotifyEvent(sender, event) {
     switch (event) {
     case Selection.EventChange:
       this.ctx.state.selectionState = this.selection.state;
@@ -79,7 +79,7 @@ class Selection extends NAObject {
 
   constructor() {
     super();
-    this.addObserver(this, this._observer);
+    this.addObserver(this);
   }
 
   set state(state) {
@@ -101,7 +101,7 @@ class Selection extends NAObject {
     this.triggerChange(this);
   }
 
-  _observer(sender, event) {
+  onNotifyEvent(sender, event) {
     if (NAObject.EventChange === event) {
       this.notify(this, Selection.EventChanged);
     }
@@ -142,7 +142,7 @@ class ListItemViewController extends NAViewController {
 
   set selection(_selection) {
     this._selection = _selection;
-    this._selection.addObserver(this, this._observer);
+    this._selection.addObserver(this);
   }
 
   set post(_post) {
@@ -157,7 +157,7 @@ class ListItemViewController extends NAViewController {
       let tagVC = new ListItemTagViewController(this.view.tag_tpl);
       tagVC.selection = this._selection;
       tagVC.tag = tag;
-      tagVC.addObserver(this, this._observer);
+      tagVC.addObserver(this);
       this.view.tag_list.appendChild(tagVC.view.element);
     });
 
@@ -169,7 +169,7 @@ class ListItemViewController extends NAViewController {
     setTimeout(() => this.view.element.style.height = this.view.element.clientHeight + 50 + 'px');
   }
 
-  _observer(sender, event) {
+  onNotifyEvent(sender, event) {
     switch (event) {
     case Selection.EventChange:
       let willShow = this._selection.selectedTag == null || this._post.tags.includes(this._selection.selectedTag);
@@ -196,7 +196,7 @@ class ListItemTagViewController extends NAViewController {
 
   set selection(_selection) {
     this._selection = _selection;
-    this._selection.addObserver(this, this._observer);
+    this._selection.addObserver(this);
   }
 
   set tag(_tag) {
@@ -213,7 +213,7 @@ class ListItemTagViewController extends NAViewController {
     }
   }
 
-  _observer(sender, event) {
+  onNotifyEvent(sender, event) {
     if (Selection.EventChange === event) {
       this._updateSelectedClass();
     }

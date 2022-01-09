@@ -4066,9 +4066,9 @@ nth-check@^2.0.1:
   dependencies:
     boolbase "^1.0.0"
 
-nvc@noriyoshiabe/nvc#0.2.0:
-  version "0.2.0"
-  resolved "https://codeload.github.com/noriyoshiabe/nvc/tar.gz/df77b25b20180690eb3d569f2cede761f1fcdd3d"
+nvc@noriyoshiabe/nvc#0.2.1:
+  version "0.2.1"
+  resolved "https://codeload.github.com/noriyoshiabe/nvc/tar.gz/9a24e7d71a0dba8cda45832c487de1ef48acf90d"
 
 object-copy@^0.1.0:
   version "0.1.0"
