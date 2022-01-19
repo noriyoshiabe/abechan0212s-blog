@@ -84,7 +84,7 @@ class Selection extends NAObject {
 
   set state(state) {
     this.selectedTag = state.selectedTag;
-    this.triggerChange(this);
+    this.triggerChange();
   }
 
   get state() {
@@ -93,12 +93,12 @@ class Selection extends NAObject {
 
   reset() {
     this.selectedTag = null;
-    this.triggerChange(this);
+    this.triggerChange();
   }
 
   select(tag) {
     this.selectedTag = this.selectedTag == tag ? null : tag;
-    this.triggerChange(this);
+    this.triggerChange();
   }
 
   onNotify(sender, event) {
