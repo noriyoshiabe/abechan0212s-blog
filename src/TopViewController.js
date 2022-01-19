@@ -56,7 +56,7 @@ class TopViewController extends NAViewController {
     this.selectionViewRect = this.view.selectionView.element.getBoundingClientRect();
   }
 
-  onNotifyEvent(sender, event) {
+  onNotify(sender, event) {
     switch (event) {
     case Selection.EventChange:
       this.ctx.state.selectionState = this.selection.state;
@@ -101,7 +101,7 @@ class Selection extends NAObject {
     this.triggerChange(this);
   }
 
-  onNotifyEvent(sender, event) {
+  onNotify(sender, event) {
     if (NAObject.EventChange === event) {
       this.notify(Selection.EventChange);
     }
@@ -169,7 +169,7 @@ class ListItemViewController extends NAViewController {
     setTimeout(() => this.view.element.style.height = this.view.element.clientHeight + 50 + 'px');
   }
 
-  onNotifyEvent(sender, event) {
+  onNotify(sender, event) {
     switch (event) {
     case Selection.EventChange:
       let willShow = this._selection.selectedTag == null || this._post.tags.includes(this._selection.selectedTag);
@@ -213,7 +213,7 @@ class ListItemTagViewController extends NAViewController {
     }
   }
 
-  onNotifyEvent(sender, event) {
+  onNotify(sender, event) {
     if (Selection.EventChange === event) {
       this._updateSelectedClass();
     }
