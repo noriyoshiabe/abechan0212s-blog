@@ -10,8 +10,8 @@ class NavigationViewController extends NAViewController {
   constructor(siteIndex) {
     super(new NAView(html));
     this.siteIndex = siteIndex;
-    this.view.profile_image.addEventListener("click", this._onClickProfile.bind(this));
-    this.view.profile_image_wrapper.addEventListener("transitionend", this._onTransitionEnd.bind(this));
+    this.view.profile_image.addEventListener("click", this._onClickProfile);
+    this.view.profile_image_wrapper.addEventListener("transitionend", this._onTransitionEnd);
   }
 
   show(ViewController, ctx) {
@@ -91,14 +91,14 @@ class NavigationViewController extends NAViewController {
     setTimeout(() => currentVC.view.element.classList.add("is-shown"));
   }
 
-  _onClickProfile() {
+  _onClickProfile = () => {
     if (this.ctx.pathname === "/") {
       this.view.message.classList.remove("is-active");
       setTimeout(() => this.view.message.classList.add("is-active"), 50);
     }
   }
 
-  _onTransitionEnd() {
+  _onTransitionEnd = () => {
     this.view.profile_image_wrapper.classList.remove("is-animating");
   }
 }

@@ -202,7 +202,7 @@ class ListItemTagViewController extends NAViewController {
   set tag(_tag) {
     this._tag = _tag;
     this.view.element.innerText = _tag;
-    this.view.element.addEventListener("click", this._onClick.bind(this));
+    this.view.element.addEventListener("click", this._onClick);
   }
 
   _updateSelectedClass() {
@@ -219,7 +219,7 @@ class ListItemTagViewController extends NAViewController {
     }
   }
 
-  _onClick() {
+  _onClick = () => {
     this._selection.select(this._tag);
     this.notify(ListItemTagViewController.EventSelectionChange);
   }
