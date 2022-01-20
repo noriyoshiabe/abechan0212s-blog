@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const webpack = require('webpack');
 const YAML = require('yaml');
+const RSS = require('rss');
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
@@ -199,6 +200,23 @@ class SSGPlugin {
             tags: master.tags,
           };
           compilation.emitAsset('index.json', new webpack.sources.RawSource(JSON.stringify(siteIndex, null, 2)));
+
+
+          let feed = new RSS({
+            title: top.title,
+            description: top.description,
+            site_url: top.url,
+            pubDate: Object.values(_posts).map(p => p.lastModified ?? p.date).reduce((a, b) => a > b ? a : b), // MAX
+          });
+          Object.values(_posts).forEach(p => {
+            feed.item({
+              title: p.title,
+              description: p.description,
+              url: `${baseURL}${p.url}`,
+              date: p.lastModified ?? p.date,
+            });
+          });
+          compilation.emitAsset('rss.xml', new webpack.sources.RawSource(feed.xml({indent: true})));
 
           return callback();
         });

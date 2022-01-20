@@ -10,13 +10,21 @@
       }
     }
 
-    .sns {
+    .link-icon {
       display: flex;
       justify-content: center;
       align-items: center;
 
       > a {
         margin: 0 5px;
+
+        img {
+          width: 28px;
+
+          &.rss {
+            width: 26px;
+          }
+        }
       }
     }
 
