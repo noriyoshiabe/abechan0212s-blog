@@ -1,6 +1,3 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-
 import MarkdownIt from "markdown-it";
 
 import { NAViewController, NAView } from "nvc";

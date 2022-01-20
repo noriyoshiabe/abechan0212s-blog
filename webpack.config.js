@@ -14,7 +14,13 @@ const SSGPlugin = require("./webpack.ssg.js");
 
 const config = {
   entry: {
-    app: "./src/index.js",
+    app: [
+      "core-js/stable",
+      "regenerator-runtime/runtime",
+      "normalize.css",
+      "./src/index.scss",
+      "./src/index.js",
+    ],
   },
   output: {
     path: path.resolve(__dirname, "dist"),

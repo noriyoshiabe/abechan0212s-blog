@@ -1,6 +1,3 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-
 import { NAViewController, NAView, NAObject } from "nvc";
 import html from "./TopView.html";
 

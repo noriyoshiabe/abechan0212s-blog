@@ -1,6 +1,3 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-
 import { NAViewController, NAView } from "nvc";
 import html from "./NavigationView.html";
 
