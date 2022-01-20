@@ -7,6 +7,7 @@ const RSS = require('rss');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const prettydata = require('pretty-data');
+const CopyPlugin = require("copy-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 const stage = isProduction ? process.env.STAGE || "production" : "local";
@@ -35,6 +36,7 @@ class SSGPlugin {
   apply(compiler) {
     let compilationHash;
     let willEmitAssets = [];
+    let willCopyAssets = [];
 
     let posts = {};
 
@@ -64,7 +66,7 @@ class SSGPlugin {
       }
 
       let htmlPluginOptions = Object.assign({}, defaultHtmlPluginOptions);
-      let permalink = dir.substring(9);
+      let permalink = dir.substring(dir.indexOf('_') + 1);
       let post = {
         id: permalink,
         url: `/${permalink}/`,
@@ -81,7 +83,7 @@ class SSGPlugin {
 
         switch (fileName) {
         case 'body.md':
-          willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
+          willCopyAssets.push({from: filePath, to: path.join(permalink, fileName)});
           break;
         case 'meta.yml':
           let yamlText = fs.readFileSync(filePath, 'utf8');
@@ -114,6 +116,7 @@ class SSGPlugin {
           htmlPluginOptions.imgUrl = post.imgUrl
           break;
         case 'thumbnail.png':
+        case 'thumbnail.jpg':
           willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
           post.thumbnailUrl = () => `/${permalink}/${fileName}?${compilationHash}`;
           break;
@@ -160,6 +163,10 @@ class SSGPlugin {
           formatter: (xml) => prettydata.pd.xml(xml),
         },
       })
+    );
+
+    compiler.options.plugins.push(
+      new CopyPlugin({patterns: willCopyAssets})
     );
 
     compiler.hooks.thisCompilation.tap('SSGPlugin',

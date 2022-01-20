@@ -1,9 +1,31 @@
 import MarkdownIt from "markdown-it";
+import emoji from "markdown-it-emoji";
+import defs from "markdown-it-emoji/lib/data/full.json";
 
 import { NAViewController, NAView } from "nvc";
 import html from "./PostView.html";
 
-const md = new MarkdownIt();
+const md = new MarkdownIt({
+  html: true,
+  breaks: true,
+});
+
+md.use(emoji, {
+  defs: Object.assign({}, defs, {
+    bow: "🙇🏻‍♂️",
+  })
+});
+
+const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
+  return self.renderToken(tokens, idx, options);
+};
+md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+  if (tokens[idx].attrGet("href")?.startsWith("http")) {
+    tokens[idx].attrPush(['target', '_blank']);
+  }
+  return defaultRender(tokens, idx, options, env, self);
+};
+
 
 class PostViewController extends NAViewController {
   constructor() {
