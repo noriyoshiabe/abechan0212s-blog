@@ -38,7 +38,7 @@
   "dependencies": {
     "core-js": "^3.20.2",
     "markdown-it": "^12.3.0",
-    "nvc": "noriyoshiabe/nvc#0.2.2",
+    "nvc": "noriyoshiabe/nvc#0.2.3",
     "page": "^1.11.6",
     "regenerator-runtime": "^0.13.9"
   }
