@@ -16,12 +16,13 @@
 
   .comment {
     margin: 30px 0 80px;
-    display: block;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 
     img {
+      margin-right: 1px;
       width: 16px;
-      margin-bottom: -2px;
     }
   }
 }
