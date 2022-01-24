@@ -43,6 +43,7 @@ class PostViewController extends NAViewController {
       let response = await fetch(this.post.bodyPath);
       let raw = await response.text();
       this.view.body.innerHTML = md.render(raw);
+      this.view.comment.classList.remove("is-hidden");
     })();
   }
 
