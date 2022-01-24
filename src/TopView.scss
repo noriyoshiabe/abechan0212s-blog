@@ -121,7 +121,7 @@
           border-bottom: dotted 1px $c-text;
           cursor: pointer;
 
-          &:nth-child(n + 2) {
+          &:nth-of-type(n + 2) {
             margin-left: 10px;
           }
 
