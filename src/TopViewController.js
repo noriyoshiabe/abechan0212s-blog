@@ -12,11 +12,11 @@ class TopViewController extends NAViewController {
     this.view.site_name.innerText = siteIndex.top.title;
 
     let whoAmI = siteIndex.posts.byId.who_am_i;
-    this.view.fixed_link1.href = whoAmI.url;
+    this.view.fixed_link1.href = whoAmI.path;
     this.view.fixed_link1.innerText = whoAmI.title;
 
     let aboutThisSite = siteIndex.posts.byId.about_this_site;
-    this.view.fixed_link2.href = aboutThisSite.url;
+    this.view.fixed_link2.href = aboutThisSite.path;
     this.view.fixed_link2.innerText = aboutThisSite.title;
 
     this.selection = new Selection();
@@ -145,7 +145,7 @@ class ListItemViewController extends NAViewController {
   set post(_post) {
     this._post = _post;
 
-    this.view.title.href = _post.url;
+    this.view.title.href = _post.path;
     this.view.title.innerText = _post.title;
     this.view.description.innerText = _post.description;
     this.view.date.innerText = _post.date;
@@ -158,8 +158,8 @@ class ListItemViewController extends NAViewController {
       this.view.tag_list.appendChild(tagVC.view.element);
     });
 
-    if (this._post.thumbnailUrl) {
-      this.view.thumbnail.src = this._post.thumbnailUrl;
+    if (this._post.thumbnailPath) {
+      this.view.thumbnail.src = this._post.thumbnailPath;
       this.view.thumbnail.classList.remove("is-hidden");
     }
 

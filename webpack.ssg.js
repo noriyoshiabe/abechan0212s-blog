@@ -46,7 +46,7 @@ class SSGPlugin {
       description: "abechan0212のブログです。",
       url: `${baseURL}/`,
       imgUrl: () => `${baseURL}/ogp.png?${compilationHash}`,
-      indexJsonUrl: () => `/index.json?${compilationHash}`,
+      indexJsonPath: () => `/index.json?${compilationHash}`,
     };
 
     compiler.options.plugins.push(
@@ -69,8 +69,9 @@ class SSGPlugin {
       let permalink = dir.substring(dir.indexOf('_') + 1);
       let post = {
         id: permalink,
-        url: `/${permalink}/`,
-        bodyUrl: () => `/${permalink}/body.md?${compilationHash}`,
+        url: `${baseURL}/${permalink}/`,
+        path: `/${permalink}/`,
+        bodyPath: () => `/${permalink}/body.md?${compilationHash}`,
         imgUrl: defaultHtmlPluginOptions.imgUrl,
       };
 
@@ -118,7 +119,7 @@ class SSGPlugin {
         case 'thumbnail.png':
         case 'thumbnail.jpg':
           willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
-          post.thumbnailUrl = () => `/${permalink}/${fileName}?${compilationHash}`;
+          post.thumbnailPath = () => `/${permalink}/${fileName}?${compilationHash}`;
           break;
         default:
           console.warn(`Unexpected file name \`${fileName}\``);
@@ -134,10 +135,11 @@ class SSGPlugin {
         'date',
         'lastModified',
         'tags',
-        'bodyUrl',
+        'path',
+        'bodyPath',
         'url',
         'imgUrl',
-        'thumbnailUrl',
+        'thumbnailPath',
       ]); // for json key order
 
       compiler.options.plugins.push(new HtmlWebpackPlugin(htmlPluginOptions));
@@ -194,8 +196,8 @@ class SSGPlugin {
           let _posts = keyBy(Object.values(posts).map(p => Object.assign({}, p)), 'id'); // deep copy for dev server
           Object.values(_posts).concat(top).forEach(p => {
             if (p.imgUrl) p.imgUrl = p.imgUrl();
-            if (p.bodyUrl) p.bodyUrl = p.bodyUrl();
-            if (p.thumbnailUrl) p.thumbnailUrl = p.thumbnailUrl();
+            if (p.bodyPath) p.bodyPath = p.bodyPath();
+            if (p.thumbnailPath) p.thumbnailPath = p.thumbnailPath();
           });
 
           let siteIndex = {
@@ -219,7 +221,7 @@ class SSGPlugin {
             feed.item({
               title: p.title,
               description: p.description,
-              url: `${baseURL}${p.url}`,
+              url: p.url,
               date: p.lastModified ?? p.date,
             });
           });
