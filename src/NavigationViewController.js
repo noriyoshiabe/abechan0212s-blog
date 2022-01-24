@@ -54,10 +54,6 @@ class NavigationViewController extends NAViewController {
     document.querySelector('meta[property="og:description"]').content = meta.description;
     document.querySelector('meta[property="og:image"]').content = meta.imgUrl;
 
-    document.querySelector('meta[name="twitter:title"]').content = meta.title;
-    document.querySelector('meta[name="twitter:description"]').content = meta.description;
-    document.querySelector('meta[name="twitter:image"]').content = meta.imgUrl;
-
     document.querySelector("link[rel=canonical]").href = meta.url;
   }
 
