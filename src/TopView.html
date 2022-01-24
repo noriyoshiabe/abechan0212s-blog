@@ -32,20 +32,20 @@
   </ul>
 
   <div class="list" na-view-property="list">
+    <template na-view-property="list_item_tpl">
+      <div class="list--item">
+        <h2 class="title fz-lg">
+          <a na-view-property="title"></a>
+        </h2>
+        <p class="description fz-md" na-view-property="description"></p>
+        <p class="date fz-sm" na-view-property="date"></p>
+        <ul class="tag_list" na-view-property="tag_list">
+        </ul>
+        <template na-view-property="tag_tpl">
+          <li class="fz-sm"></li>
+        </template>
+        <img na-view-property="thumbnail" class="is-hidden"/>
+      </div>
+    </template>
   </div>
-  <template na-view-property="list_item_tpl">
-    <div class="list--item">
-      <h2 class="title fz-lg">
-        <a na-view-property="title"></a>
-      </h2>
-      <p class="description fz-md" na-view-property="description"></p>
-      <p class="date fz-sm" na-view-property="date"></p>
-      <ul class="tag_list" na-view-property="tag_list">
-      </ul>
-      <template na-view-property="tag_tpl">
-        <li class="fz-sm"></li>
-      </template>
-      <img na-view-property="thumbnail" class="is-hidden"/>
-    </div>
-  </template>
 </div>

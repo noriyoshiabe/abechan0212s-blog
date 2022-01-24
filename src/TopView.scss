@@ -87,7 +87,7 @@
       transition: all 0.2s;
 
       &.is-hidden {
-        display: grid;
+        display: grid !important;
         height: 0 !important;
       }
 
