@@ -22,6 +22,7 @@ const defaultRender = md.renderer.rules.link_open || function(tokens, idx, optio
 md.renderer.rules.link_open = function (tokens, idx, options, env, self) {
   if (tokens[idx].attrGet("href")?.startsWith("http")) {
     tokens[idx].attrPush(['target', '_blank']);
+    tokens[idx].attrPush(['class', '_blank']);
   }
   return defaultRender(tokens, idx, options, env, self);
 };
