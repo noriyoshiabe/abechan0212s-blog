@@ -37,6 +37,7 @@ class PostViewController extends NAViewController {
 
     this.view.title.innerText = this.post.title;
     this.view.date.innerText = this.post.date;
+    this.view.comment.href = `https://twitter.com/share?url=${location.href}&text=いてぇよー&via=na0000000000`;
 
     (async () => {
       let response = await fetch(this.post.bodyUrl);
