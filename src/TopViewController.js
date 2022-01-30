@@ -59,7 +59,7 @@ class TopViewController extends NAViewController {
       this.ctx.state.selectionState = this.selection.state;
       setTimeout(() => this.ctx.save());
       break;
-    case ListItemViewController.EventSelectionChange:
+    case ListItemTagViewController.EventSelectionChange:
       let toY = this.selectionViewRect.y - 15;
       if (toY < window.scrollY) {
         this.navVC.smoothScrollToY(toY);
@@ -131,15 +131,12 @@ class SelectionViewController extends NAViewController {
 }
 
 class ListItemViewController extends NAViewController {
-  static EventSelectionChange = "ListItemViewController.EventSelectionChange";
-
   constructor(listItemTpl) {
     super(new NAView(listItemTpl));
   }
 
   set selection(_selection) {
     this._selection = _selection;
-    this._selection.addObserver(this);
   }
 
   set post(_post) {
@@ -149,6 +146,16 @@ class ListItemViewController extends NAViewController {
     this.view.title.innerText = _post.title;
     this.view.description.innerText = _post.description;
     this.view.date.innerText = _post.date;
+
+    this.view.bind("element", {to: this._selection, keyPath: 'selectedTag', oneway: true, adapter: {
+      setValueToNode: (value, node) => {
+        if (value == null || this._post.tags.includes(value)) {
+          node.classList.remove("is-hidden");
+        } else {
+          node.classList.add("is-hidden");
+        }
+      },
+    }});
 
     this._post.tags.forEach(tag => {
       let tagVC = new ListItemTagViewController(this.view.tag_tpl);
@@ -167,20 +174,7 @@ class ListItemViewController extends NAViewController {
   }
 
   onNotify(sender, event) {
-    switch (event) {
-    case Selection.EventChange:
-      let willShow = this._selection.selectedTag == null || this._post.tags.includes(this._selection.selectedTag);
-
-      if (willShow) {
-        this.view.element.classList.remove("is-hidden");
-      } else {
-        this.view.element.classList.add("is-hidden");
-      }
-      break;
-    case ListItemTagViewController.EventSelectionChange:
-      this.notify(ListItemViewController.EventSelectionChange);
-      break;
-    }
+    this.notify(event);
   }
 }
 
@@ -193,27 +187,23 @@ class ListItemTagViewController extends NAViewController {
 
   set selection(_selection) {
     this._selection = _selection;
-    this._selection.addObserver(this);
   }
 
   set tag(_tag) {
     this._tag = _tag;
     this.view.element.innerText = _tag;
+
+    this.view.bind("element", {to: this._selection, keyPath: 'selectedTag', oneway: true, adapter: {
+      setValueToNode: (value, node) => {
+        if (value == this._tag) {
+          node.classList.add("is-selected");
+        } else {
+          node.classList.remove("is-selected");
+        }
+      },
+    }});
+
     this.view.element.addEventListener("click", this._onClick);
-  }
-
-  _updateSelectedClass() {
-    if (this._selection.selectedTag == this._tag) {
-      this.view.element.classList.add("is-selected");
-    } else {
-      this.view.element.classList.remove("is-selected");
-    }
-  }
-
-  onNotify(sender, event) {
-    if (Selection.EventChange === event) {
-      this._updateSelectedClass();
-    }
   }
 
   _onClick = () => {
