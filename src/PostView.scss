@@ -18,7 +18,15 @@
     margin: 30px 0 80px;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+
+    span {
+      flex-grow: 1;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+    }
 
     img {
       margin-right: 1px;
