@@ -7,7 +7,6 @@ import html from "./PostView.html";
 
 const md = new MarkdownIt({
   html: true,
-  breaks: true,
 });
 
 md.use(emoji, {
