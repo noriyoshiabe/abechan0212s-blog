@@ -101,6 +101,14 @@ class SSGPlugin {
             }
           });
 
+          if (yaml.attachments) {
+            if (!yaml.attachments instanceof Array) throw new Error(`\`attachments\` in ${filePath} is not array`);
+            yaml.attachments.forEach(attachment => {
+              let filePath = path.resolve(__dirname, postsDir, dir, attachment);
+              willCopyAssets.push({from: filePath, to: path.join(permalink, attachment)});
+            });
+          }
+
           htmlPluginOptions.title = `${yaml.title} - ${siteName}`;
           htmlPluginOptions.description = yaml.description;
 
@@ -122,7 +130,6 @@ class SSGPlugin {
           post.thumbnailPath = () => `/${permalink}/${fileName}?${compilationHash}`;
           break;
         default:
-          console.warn(`Unexpected file name \`${fileName}\``);
           break;
         }
       });
