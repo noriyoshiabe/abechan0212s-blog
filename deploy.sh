@@ -13,10 +13,12 @@ case $1 in
   "prd" )
     STAGE=production
     BUCKET=$PRODUCTION_BUCKET
+    DISTRIBUTION_ID=$PRODUCTION_DISTRIBUTION_ID
     ;;
   "stg" )
     STAGE=staging
     BUCKET=$STAGING_BUCKET
+    DISTRIBUTION_ID=$STAGING_DISTRIBUTION_ID
     ;;
   * )
     echo "Need environment (prd|stg)"
@@ -26,3 +28,4 @@ esac
 
 yarn clean && STAGE=$STAGE yarn build:prod
 aws s3 sync --delete dist/ s3://$BUCKET
+aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
