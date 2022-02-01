@@ -1,19 +1,18 @@
 import MarkdownIt from "markdown-it";
 import emoji from "markdown-it-emoji";
 import defs from "markdown-it-emoji/lib/data/full.json";
+import footnote from "markdown-it-footnote";
 
 import { NAViewController, NAView } from "nvc";
 import html from "./PostView.html";
 
 const md = new MarkdownIt({
   html: true,
-});
-
-md.use(emoji, {
+}).use(emoji, {
   defs: Object.assign({}, defs, {
     bow: "🙇🏻‍♂️",
   })
-});
+}).use(footnote);
 
 const defaultRender = md.renderer.rules.link_open || function(tokens, idx, options, env, self) {
   return self.renderToken(tokens, idx, options);

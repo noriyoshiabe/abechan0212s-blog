@@ -306,6 +306,14 @@
     margin-bottom: 16px
 }
 
+/* footnotes */
+.md .footnotes {
+  font-size: 0.8em;
+
+  p {
+    margin: 8px 0;
+  }
+}
 
 /* Markdown Content Utility */
 .md {

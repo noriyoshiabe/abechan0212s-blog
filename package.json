@@ -39,6 +39,7 @@
     "core-js": "^3.20.2",
     "markdown-it": "^12.3.0",
     "markdown-it-emoji": "^2.0.0",
+    "markdown-it-footnote": "^3.0.3",
     "nvc": "noriyoshiabe/nvc#0.2.4",
     "page": "^1.11.6",
     "regenerator-runtime": "^0.13.9"
