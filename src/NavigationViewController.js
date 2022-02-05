@@ -6,9 +6,12 @@ class NavigationViewController extends NAViewController {
 
   constructor(siteIndex) {
     super(new NAView(html));
+
     this.siteIndex = siteIndex;
     this.view.profile_image.addEventListener("click", this._onClickProfile);
     this.view.profile_image_wrapper.addEventListener("transitionend", this._onTransitionEnd);
+
+    window.addEventListener('resize', this._onWindowResize);
   }
 
   show(ViewController, ctx) {
@@ -93,6 +96,10 @@ class NavigationViewController extends NAViewController {
 
   _onTransitionEnd = () => {
     this.view.profile_image_wrapper.classList.remove("is-animating");
+  }
+
+  _onWindowResize = () => {
+    this.currentVC?.windowDidResize?.();
   }
 }
 

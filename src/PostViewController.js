@@ -43,11 +43,34 @@ class PostViewController extends NAViewController {
       let raw = await response.text();
       this.view.body.innerHTML = md.render(raw);
       this.view.comment.classList.remove("is-hidden");
+      this._initScrollableHint();
+      this._checkOverflowing();
     })();
   }
 
   viewDidAppear() {
     this.navVC.metaInfo = this.post;
+    this._checkOverflowing();
+  }
+
+  windowDidResize() {
+    this._checkOverflowing();
+  }
+
+  _initScrollableHint() {
+    this.view.body.querySelectorAll('table, pre').forEach(scrollableElement => {
+      scrollableElement.parentNode.insertBefore(document.createElement('span'), scrollableElement.nextSibling);
+    });
+  }
+
+  _checkOverflowing() {
+    this.view.body.querySelectorAll('table, pre').forEach(scrollableElement => {
+      if (scrollableElement.scrollWidth > scrollableElement.clientWidth) {
+        scrollableElement.nextSibling.classList.add("is-scrollable");
+      } else {
+        scrollableElement.nextSibling.classList.remove("is-scrollable");
+      }
+    });
   }
 }
 

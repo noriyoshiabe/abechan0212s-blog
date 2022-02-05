@@ -324,3 +324,17 @@
     text-align: center;
   }
 }
+
+/* Hint for scrollable content */
+.md {
+  .is-scrollable {
+    &:before {
+      display: block;
+      margin-top: -16px;
+      margin-bottom: 16px;
+      text-align: right;
+      font-size: 0.625em;
+      content: "横にスクロールできるよ→";
+    }
+  }
+}
