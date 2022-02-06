@@ -126,6 +126,7 @@ class SSGPlugin {
           break;
         case 'thumbnail.png':
         case 'thumbnail.jpg':
+        case 'thumbnail.svg':
           willEmitAssets.push({fromPath: filePath, toPath: path.join(permalink, fileName)});
           post.thumbnailPath = () => `/${permalink}/${fileName}?${compilationHash}`;
           break;
