@@ -26,7 +26,7 @@
   },
   "version": "1.0.0",
   "description": "abechan0212's blog",
-  "name": "abechan0212.nasequencer.com",
+  "name": "abechan0212s-blog",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",

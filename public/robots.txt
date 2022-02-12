@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://abechan0212.nasequencer.com/sitemap.xml
+Sitemap: https://blog.nasequencer.com/sitemap.xml

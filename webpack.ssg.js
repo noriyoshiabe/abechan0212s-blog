@@ -15,7 +15,7 @@ const stage = isProduction ? process.env.STAGE || "production" : "local";
 const baseURL = {
   local: "http://localhost:8080",
   staging: "https://staging.nasequencer.com",
-  production: "https://abechan0212.nasequencer.com",
+  production: "https://blog.nasequencer.com",
 }[stage];
 
 const siteName = "abechan0212's blog";
