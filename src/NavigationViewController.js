@@ -85,6 +85,7 @@ class NavigationViewController extends NAViewController {
 
     prevVC?.view.element.classList.remove("is-shown");
     setTimeout(() => currentVC.view.element.classList.add("is-shown"));
+    setTimeout(() => window.PageView());
   }
 
   _onClickProfile = () => {

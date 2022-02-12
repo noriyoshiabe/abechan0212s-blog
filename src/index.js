@@ -1,3 +1,4 @@
+import "./ga-cookieless";
 import page from "page";
 
 import NavigationViewController from "./NavigationViewController";

@@ -51,7 +51,8 @@ class SSGPlugin {
 
     compiler.options.plugins.push(
       new webpack.DefinePlugin({
-        "Define.SITE_NAME": JSON.stringify(siteName)
+        "Define.SITE_NAME": JSON.stringify(siteName),
+        "process.env.GA_TRACKING_ID": JSON.stringify(process.env.GA_TRACKING_ID),
       })
     );
 

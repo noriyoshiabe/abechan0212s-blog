@@ -24,6 +24,11 @@
     <link rel="canonical" href="<%= htmlWebpackPlugin.options.url %>" />
 
     <meta name="site-index" content="<%= htmlWebpackPlugin.options.indexJsonPath() %>">
+
+<% if (process.env.GA_TRACKING_ID) { %>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= process.env.GA_TRACKING_ID %>"></script>
+<% } %>
   </head>
   <body>
   </body>
