@@ -88,8 +88,9 @@ class NavigationViewController extends NAViewController {
     setTimeout(() => window.PageView());
   }
 
-  _onClickProfile = () => {
+  _onClickProfile = (e) => {
     if (this.ctx.pathname === "/") {
+      e.preventDefault();
       this.view.message.classList.remove("is-active");
       setTimeout(() => this.view.message.classList.add("is-active"), 50);
     }
